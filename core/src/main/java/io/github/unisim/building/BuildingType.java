@@ -5,8 +5,8 @@ package io.github.unisim.building;
  * has its' own counter.
  */
 public enum BuildingType {
-  RECREATION,
-  LEARNING,
-  SLEEPING,
-  EATING
+    RECREATION,
+    LEARNING,
+    SLEEPING,
+    EATING
 }

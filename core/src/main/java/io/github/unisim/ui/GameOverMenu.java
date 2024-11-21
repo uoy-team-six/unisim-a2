@@ -16,61 +16,61 @@ import io.github.unisim.GameState;
  * will be calculated in future.
  */
 public class GameOverMenu {
-  private Stage stage;
-  private Skin skin;
-  private ShapeActor bar = new ShapeActor(GameState.UISecondaryColour);
-  private Table table;
-  private TextButton mainMenuButton;
-  private Cell<TextButton> buttonCell;
-  private InputMultiplexer inputMultiplexer = new InputMultiplexer();
+    private Stage stage;
+    private Skin skin;
+    private ShapeActor bar = new ShapeActor(GameState.UISecondaryColour);
+    private Table table;
+    private TextButton mainMenuButton;
+    private Cell<TextButton> buttonCell;
+    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-  /**
-   * Creates a new GameOverMenu and initialises all events and UI elements used in the menu.
-   */
-  public GameOverMenu() {
-    stage = new Stage(new ScreenViewport());
-    table = new Table();
-    skin = GameState.defaultSkin;
+    /**
+     * Creates a new GameOverMenu and initialises all events and UI elements used in the menu.
+     */
+    public GameOverMenu() {
+        stage = new Stage(new ScreenViewport());
+        table = new Table();
+        skin = GameState.defaultSkin;
 
-    // Play button
-    mainMenuButton = new TextButton("Return to Main Menu", skin);
-    mainMenuButton.addListener(new ClickListener() {
-      @Override
-      public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-        // Switch to the game screen
-        GameState.currentScreen = GameState.startScreen;
-      }
-    });
+        // Play button
+        mainMenuButton = new TextButton("Return to Main Menu", skin);
+        mainMenuButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                // Switch to the game screen
+                GameState.currentScreen = GameState.startScreen;
+            }
+        });
 
-    // Add UI elements to the stage
-    buttonCell = table.add(mainMenuButton).center();
-    stage.addActor(bar);
-    stage.addActor(table);
+        // Add UI elements to the stage
+        buttonCell = table.add(mainMenuButton).center();
+        stage.addActor(bar);
+        stage.addActor(table);
 
-    inputMultiplexer.addProcessor(GameState.fullscreenInputProcessor);
-    inputMultiplexer.addProcessor(stage);
-  }
+        inputMultiplexer.addProcessor(GameState.fullscreenInputProcessor);
+        inputMultiplexer.addProcessor(stage);
+    }
 
 
-  public void render(float delta) {
-    stage.act(delta);
-    stage.draw();
-  }
+    public void render(float delta) {
+        stage.act(delta);
+        stage.draw();
+    }
 
-  /**
-   * Called when the game window is resized and we need to adjust the scale of the UI elements.
+    /**
+     * Called when the game window is resized and we need to adjust the scale of the UI elements.
+     *
+     * @param width  - The new game window width in pixels
+     * @param height - The new game window height in pixels
+     */
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+        table.setBounds(0, 0, width, height * 0.1f);
+        bar.setBounds(0, 0, width, height * 0.1f);
+        buttonCell.width(width * 0.3f).height(height * 0.1f);
+    }
 
-   * @param width - The new game window width in pixels
-   * @param height - The new game window height in pixels
-   */
-  public void resize(int width, int height) {
-    stage.getViewport().update(width, height, true);
-    table.setBounds(0, 0, width, height * 0.1f);
-    bar.setBounds(0, 0, width, height * 0.1f);
-    buttonCell.width(width * 0.3f).height(height * 0.1f);
-  }
-
-  public InputProcessor getInputProcessor() {
-    return inputMultiplexer;
-  }
+    public InputProcessor getInputProcessor() {
+        return inputMultiplexer;
+    }
 }
