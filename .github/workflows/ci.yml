@@ -47,7 +47,7 @@ jobs:
       - name: Run tests with Gradle
         run: ./gradlew test
         shell: bash
-
+        
       - name: Build Desktop
         run: ./gradlew desktop:dist
         shell: bash
