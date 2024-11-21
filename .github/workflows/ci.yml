@@ -40,14 +40,18 @@ jobs:
         if: runner.os != 'Windows'
         run: chmod +x gradlew
 
+      - name: List Projects
+        run: ./gradlew projects
+        shell: bash
+
+      - name: List Available Tasks
+        run: ./gradlew tasks --all
+        shell: bash
+
       - name: Build with Gradle
         run: ./gradlew build
         shell: bash
 
       - name: Run tests with Gradle
         run: ./gradlew test
-        shell: bash
-        
-      - name: Build Desktop
-        run: ./gradlew desktop:dist
         shell: bash
