@@ -1,2 +1,2 @@
 rootProject.name = "unisim-a2"
-include("core", "lwjgl3")
+include("core", "lwjgl3", "headless")

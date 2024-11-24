@@ -10,3 +10,6 @@ under limited time and subject to random events? A continuation of [Team 9's pro
 * Clone the repository from the `master` branch
 * Run the command `./gradlew shadowJar`
 * The built jar will be `lwjgl3/build/libs/unisim-a2-lwjgl3-all.jar`
+
+### Running tests
+    ./gradlew test
