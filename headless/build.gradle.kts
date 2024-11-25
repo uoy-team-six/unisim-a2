@@ -12,3 +12,7 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+plugins {
+   id 'java-library'
+   id 'jacoco'
