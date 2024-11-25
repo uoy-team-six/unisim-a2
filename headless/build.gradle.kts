@@ -16,3 +16,4 @@ tasks.test {
 plugins {
    id 'java-library'
    id 'jacoco'
+}
