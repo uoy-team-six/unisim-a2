@@ -4,13 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputAdapter;
 
 /**
  * Runs before the WorldInputProcessor and handles any input events generated from the UI.
  */
-@SuppressWarnings("OuterTypeFilename")
-public class FullscreenInputProcessor implements InputProcessor {
+public class FullscreenInputProcessor extends InputAdapter {
     int[] windowSize = new int[2];
     boolean fullscreen = false;
 
@@ -51,38 +50,5 @@ public class FullscreenInputProcessor implements InputProcessor {
             default:
                 return false;
         }
-    }
-
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int x, int y, int pointer, int button) {
-        return false;
-    }
-
-    public boolean touchUp(int x, int y, int pointer, int button) {
-        return false;
-    }
-
-    public boolean touchDragged(int x, int y, int pointer) {
-        return false;
-    }
-
-    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    public boolean mouseMoved(int x, int y) {
-        return false;
-    }
-
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
     }
 }

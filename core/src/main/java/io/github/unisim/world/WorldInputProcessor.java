@@ -1,13 +1,13 @@
 package io.github.unisim.world;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputAdapter;
 import io.github.unisim.GameState;
 
 /**
  * Handles input events related to the world, after they have passed through the UiInputProcessor.
  */
-public class WorldInputProcessor implements InputProcessor {
+public class WorldInputProcessor extends InputAdapter {
     private World world;
     private int[] cursorPos = new int[2];
     private int[] cursorPosWhenClicked = new int[2];
@@ -17,7 +17,6 @@ public class WorldInputProcessor implements InputProcessor {
     public WorldInputProcessor(World world) {
         this.world = world;
     }
-
 
     @Override
     public boolean keyDown(int keycode) {
@@ -38,17 +37,6 @@ public class WorldInputProcessor implements InputProcessor {
             default:
                 break;
         }
-        return false;
-    }
-
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
         return false;
     }
 
@@ -96,16 +84,6 @@ public class WorldInputProcessor implements InputProcessor {
             cursorPos[1] = y;
             return true;
         }
-        return false;
-    }
-
-    @Override
-    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int x, int y) {
         return false;
     }
 

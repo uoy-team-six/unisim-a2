@@ -1,7 +1,7 @@
 package io.github.unisim.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,56 +10,16 @@ import com.badlogic.gdx.utils.Array;
 /**
  * Runs before the WorldInputProcessor and handles any input events generated from the UI.
  */
-@SuppressWarnings("OuterTypeFilename")
-public class UiInputProcessor implements InputProcessor {
-    private Stage stage;
+public class UiInputProcessor extends InputAdapter {
+    private final Stage stage;
 
     public UiInputProcessor(Stage stage) {
         this.stage = stage;
     }
 
-    /**
-     * Called when a key is pressed and handles logic related to keypresses
-     * within UI components.
-     *
-     * @param keycode - The unique identifier for the Key pressed.
-     * @return whether the event has been handled and needs to be further processed.
-     */
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         return validateMouseClick(x, y);
-    }
-
-    public boolean touchUp(int x, int y, int pointer, int button) {
-        return false;
-    }
-
-    public boolean touchDragged(int x, int y, int pointer) {
-        return false;
-    }
-
-    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    public boolean mouseMoved(int x, int y) {
-        return false;
-    }
-
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
     }
 
     /**
