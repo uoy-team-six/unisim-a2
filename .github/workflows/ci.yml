@@ -64,6 +64,11 @@ jobs:
         run: ./gradlew :lwjgl3:shadowJar
         shell: bash
 
+      # Alternatively, combine the build and shadowJar tasks:
+      # - name: Build the lwjgl3 module and Shadow JAR
+      #   run: ./gradlew :lwjgl3:build :lwjgl3:shadowJar
+      #   shell: bash
+
       - name: List JAR Files
         run: ls -la lwjgl3/build/libs/
         shell: bash
@@ -84,4 +89,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: shadow-builds-${{ matrix.os }}.jar
-          path: lwjgl3/build/libs/unisim-a2-lwjgl3-all-shadow.jar
+          path: lwjgl3/build/libs/unisim-a2-lwjgl3-all-*-shadow.jar
