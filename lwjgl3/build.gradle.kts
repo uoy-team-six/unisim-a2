@@ -11,9 +11,6 @@ dependencies {
 }
 
 tasks.jar {
-    archiveBaseName.set("unisim-a2-lwjgl3-all") 
-    archiveVersion.set("1.0.0")    
-    destinationDirectory.set(file("$buildDir/libs"))
     manifest {
         attributes(
             "Main-Class" to "io.github.unisim.lwjgl3.Lwjgl3Launcher"
@@ -22,9 +19,14 @@ tasks.jar {
 }
 
 tasks.shadowJar {
-    archiveClassifier.set("shadow") // Sets the suffix to '-shadow'
     from("${rootProject.projectDir}/assets") {
         into("/")
     }
     minimize()
+}
+
+tasks.jar {
+    archiveBaseName.set("unisim-a2-lwjgl3-all") 
+    archiveVersion.set("1.0.0")    
+    destinationDirectory.set(file("$buildDir/libs")) 
 }
