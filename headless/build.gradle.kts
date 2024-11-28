@@ -26,10 +26,4 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test) 
 }
 
-tasks.jar {
-    archiveBaseName.set("builds") 
-    archiveVersion.set("1.0.0")    
-    destinationDirectory.set(file("$buildDir/libs")) 
-}
-
 
