@@ -66,5 +66,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: builds.jar
-          path: headless/build/reports/builds/builds.jar 
+          path: headless/build/libs/builds.jar
+ 
 
