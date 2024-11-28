@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.unisim.GameState;
+import io.github.unisim.GlobalState;
 
 /**
  * The start menu screen which presents the player with the option to start the
@@ -30,7 +30,7 @@ public class StartMenuScreen implements Screen {
     public StartMenuScreen() {
         stage = new Stage();
         table = new Table();
-        skin = GameState.defaultSkin;
+        skin = GlobalState.defaultSkin;
 
         // Play button
         playButton = new TextButton("Play", skin);
@@ -38,7 +38,7 @@ public class StartMenuScreen implements Screen {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 // Switch to the game screen
-                GameState.currentScreen = GameState.gameScreen;
+                GlobalState.currentScreen = GlobalState.gameScreen;
             }
         });
 
@@ -48,7 +48,7 @@ public class StartMenuScreen implements Screen {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 // Switch to the settings screen
-                GameState.currentScreen = GameState.settingScreen;
+                GlobalState.currentScreen = GlobalState.settingScreen;
             }
         });
 
@@ -61,7 +61,7 @@ public class StartMenuScreen implements Screen {
         table.add(settingsButton).center().width(250).height(67);
         stage.addActor(table);
 
-        inputMultiplexer.addProcessor(GameState.fullscreenInputProcessor);
+        inputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);
         inputMultiplexer.addProcessor(stage);
     }
 
@@ -72,7 +72,7 @@ public class StartMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         // Clear the screen
-        ScreenUtils.clear(GameState.UISecondaryColour);
+        ScreenUtils.clear(GlobalState.UISecondaryColour);
 
         // Draw the stage containing buttons
         stage.act(delta);

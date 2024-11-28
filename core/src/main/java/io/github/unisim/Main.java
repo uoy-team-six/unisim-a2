@@ -12,13 +12,13 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        GameState.currentScreen = GameState.startScreen;
+        GlobalState.currentScreen = GlobalState.startScreen;
     }
 
     @Override
     public void render() {
-        if (currentScreen != GameState.currentScreen) {
-            currentScreen = GameState.currentScreen;
+        if (currentScreen != GlobalState.currentScreen) {
+            currentScreen = GlobalState.currentScreen;
             setScreen(currentScreen);
             currentScreen.resume();
         }
@@ -34,9 +34,9 @@ public class Main extends Game {
         if (width + height == 0) {
             return;
         }
-        ((FullscreenInputProcessor) GameState.fullscreenInputProcessor).resize(width, height);
-        GameState.gameScreen.resize(width, height);
-        GameState.settingScreen.resize(width, height);
-        GameState.startScreen.resize(width, height);
+        ((FullscreenInputProcessor) GlobalState.fullscreenInputProcessor).resize(width, height);
+        GlobalState.gameScreen.resize(width, height);
+        GlobalState.settingScreen.resize(width, height);
+        GlobalState.startScreen.resize(width, height);
     }
 }

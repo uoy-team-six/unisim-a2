@@ -2,7 +2,7 @@ package io.github.unisim.world;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import io.github.unisim.GameState;
+import io.github.unisim.GlobalState;
 
 /**
  * Handles input events related to the world, after they have passed through the UiInputProcessor.
@@ -22,7 +22,7 @@ public class WorldInputProcessor extends InputAdapter {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Keys.SPACE:
-                GameState.paused = !GameState.paused;
+                GlobalState.paused = !GlobalState.paused;
                 break;
             case Keys.R:
                 // Flip the selected building

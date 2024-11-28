@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.unisim.GameState;
+import io.github.unisim.GlobalState;
 import io.github.unisim.Point;
 import io.github.unisim.building.Building;
 import io.github.unisim.building.BuildingManager;
@@ -95,7 +95,7 @@ public class World {
         camera.update();
 
         // Deselect the selected building if the game is over
-        if (GameState.gameOver) {
+        if (GlobalState.gameOver) {
             selectedBuilding = null;
             selectedBuildingUpdated = true;
         }

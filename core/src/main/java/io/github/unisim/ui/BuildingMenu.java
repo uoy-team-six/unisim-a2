@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import io.github.unisim.GameState;
+import io.github.unisim.GlobalState;
 import io.github.unisim.Point;
 import io.github.unisim.building.Building;
 import io.github.unisim.building.BuildingType;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 @SuppressWarnings({"MemberName", "AbbreviationAsWordInName"})
 public class BuildingMenu {
     private World world;
-    private ShapeActor bar = new ShapeActor(GameState.UISecondaryColour);
+    private ShapeActor bar = new ShapeActor(GlobalState.UISecondaryColour);
     private Table table;
     private ArrayList<Building> buildings = new ArrayList<>();
     private ArrayList<Image> buildingImages = new ArrayList<>();
@@ -147,7 +147,7 @@ public class BuildingMenu {
      * Called when the building menu needs to be redrawn with new values in the labels.
      */
     public void update() {
-        if (GameState.gameOver) {
+        if (GlobalState.gameOver) {
             buildingInfoLabel.setText("Game Over!");
         } else if (world.selectedBuilding == null) {
             buildingInfoLabel.setText("");

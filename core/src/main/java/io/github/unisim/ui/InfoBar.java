@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import io.github.unisim.GameState;
+import io.github.unisim.GlobalState;
 import io.github.unisim.Timer;
 import io.github.unisim.building.BuildingType;
 import io.github.unisim.world.World;
@@ -68,7 +68,7 @@ public class InfoBar {
         pauseImage.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                GameState.paused = true;
+                GlobalState.paused = true;
                 pauseButtonCell.setActor(playImage);
             }
         });
@@ -77,14 +77,14 @@ public class InfoBar {
         playImage.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                GameState.paused = false;
+                GlobalState.paused = false;
                 pauseButtonCell.setActor(pauseImage);
             }
         });
 
         titleTable.add(titleLabel).expandX().align(Align.center);
 
-        bar = new ShapeActor(GameState.UIPrimaryColour);
+        bar = new ShapeActor(GlobalState.UIPrimaryColour);
         stage.addActor(bar);
         stage.addActor(infoTable);
         stage.addActor(titleTable);
@@ -103,7 +103,7 @@ public class InfoBar {
             + Integer.toString(world.getBuildingCount(BuildingType.EATING)));
         buildingCounterLabels[3].setText("Sleeping: "
             + Integer.toString(world.getBuildingCount(BuildingType.SLEEPING)));
-        pauseButtonCell.setActor(GameState.paused ? playImage : pauseImage);
+        pauseButtonCell.setActor(GlobalState.paused ? playImage : pauseImage);
     }
 
     /**

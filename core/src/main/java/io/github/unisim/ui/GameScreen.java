@@ -6,7 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import io.github.unisim.GameState;
+import io.github.unisim.GlobalState;
 import io.github.unisim.Timer;
 import io.github.unisim.world.UiInputProcessor;
 import io.github.unisim.world.World;
@@ -35,7 +35,7 @@ public class GameScreen implements Screen {
         infoBar = new InfoBar(stage, timer, world);
         buildingMenu = new BuildingMenu(stage, world);
 
-        inputMultiplexer.addProcessor(GameState.fullscreenInputProcessor);
+        inputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(uiInputProcessor);
         inputMultiplexer.addProcessor(worldInputProcessor);
@@ -49,9 +49,9 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         world.render();
         float dt = Gdx.graphics.getDeltaTime();
-        if (!GameState.paused && !GameState.gameOver) {
+        if (!GlobalState.paused && !GlobalState.gameOver) {
             if (!timer.tick(dt * 1000)) {
-                GameState.gameOver = true;
+                GlobalState.gameOver = true;
                 Gdx.input.setInputProcessor(gameOverMenu.getInputProcessor());
             }
         }
@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
         infoBar.update();
         buildingMenu.update();
         stage.draw();
-        if (GameState.gameOver) {
+        if (GlobalState.gameOver) {
             world.zoom((world.getMaxZoom() - world.getZoom()) * 2f);
             world.pan((150 - world.getCameraPos().x) / 10, -world.getCameraPos().y / 10);
             gameOverMenu.render(delta);
@@ -83,9 +83,9 @@ public class GameScreen implements Screen {
     public void resume() {
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        if (GameState.gameOver) {
-            GameState.gameOver = false;
-            GameState.paused = true;
+        if (GlobalState.gameOver) {
+            GlobalState.gameOver = false;
+            GlobalState.paused = true;
             timer.reset();
             world.reset();
             infoBar.reset();

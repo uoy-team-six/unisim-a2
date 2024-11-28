@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
-import io.github.unisim.GameState;
+import io.github.unisim.GlobalState;
 import io.github.unisim.Point;
 
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class BuildingManager {
      * @return - true if the tile is buildable, false otherwise
      */
     private static boolean tileBuildable(TiledMapTile tile) {
-        return GameState.buildableTiles.contains(tile.getId());
+        return GlobalState.buildableTiles.contains(tile.getId());
     }
 
     /**

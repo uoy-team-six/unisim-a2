@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import io.github.unisim.GameState;
+import io.github.unisim.GlobalState;
 
 /**
  * Menu that is displayed when the timer has run out. This is where the final score
@@ -18,7 +18,7 @@ import io.github.unisim.GameState;
 public class GameOverMenu {
     private Stage stage;
     private Skin skin;
-    private ShapeActor bar = new ShapeActor(GameState.UISecondaryColour);
+    private ShapeActor bar = new ShapeActor(GlobalState.UISecondaryColour);
     private Table table;
     private TextButton mainMenuButton;
     private Cell<TextButton> buttonCell;
@@ -30,7 +30,7 @@ public class GameOverMenu {
     public GameOverMenu() {
         stage = new Stage(new ScreenViewport());
         table = new Table();
-        skin = GameState.defaultSkin;
+        skin = GlobalState.defaultSkin;
 
         // Play button
         mainMenuButton = new TextButton("Return to Main Menu", skin);
@@ -38,7 +38,7 @@ public class GameOverMenu {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 // Switch to the game screen
-                GameState.currentScreen = GameState.startScreen;
+                GlobalState.currentScreen = GlobalState.startScreen;
             }
         });
 
@@ -47,7 +47,7 @@ public class GameOverMenu {
         stage.addActor(bar);
         stage.addActor(table);
 
-        inputMultiplexer.addProcessor(GameState.fullscreenInputProcessor);
+        inputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);
         inputMultiplexer.addProcessor(stage);
     }
 
