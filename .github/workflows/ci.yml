@@ -48,17 +48,16 @@ jobs:
         run: ./gradlew tasks --all
         shell: bash
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build the headless module
+        run: ./gradlew :headless:build
         shell: bash
 
-      - name: Run tests with Gradle (includes JaCoCo report generation)
-        run: ./gradlew test
+      - name: Run tests in headless module (includes JaCoCo report generation)
+        run: ./gradlew :headless:test
         shell: bash
 
       - name: Upload JaCoCo code coverage report
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-report
-          path: build/reports/jacoco/test/html/**
-
+          path: headless/build/reports/jacoco/test/html/**
