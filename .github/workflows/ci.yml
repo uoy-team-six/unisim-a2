@@ -35,6 +35,7 @@ jobs:
           key: gradle-${{ matrix.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             gradle-${{ matrix.os }}-
+
       - name: Grant execute permission for Gradle wrapper (if on Unix)
         if: runner.os != 'Windows'
         run: chmod +x gradlew
@@ -55,6 +56,14 @@ jobs:
         run: ./gradlew :headless:test
         shell: bash
 
+      - name: Build the lwjgl3 module
+        run: ./gradlew :lwjgl3:build
+        shell: bash
+
+      - name: List JAR Files
+        run: ls -la lwjgl3/build/libs/
+        shell: bash
+
       - name: Upload JaCoCo code coverage report
         uses: actions/upload-artifact@v4
         with:
@@ -65,4 +74,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: builds-${{ matrix.os }}.jar
-          path: lwjgl3/build/libs/unisim-a2-lwjgl3-all.jar
+          path: lwjgl3/build/libs/unisim-a2-lwjgl3-all-*.jar
