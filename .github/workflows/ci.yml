@@ -61,3 +61,10 @@ jobs:
         with:
           name: code-coverage-report-${{ matrix.os }}
           path: headless/build/reports/jacoco/test/html/**
+
+      - name: Uplaod JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: builds.jar
+          path: headless/build/reports/builds/builds.jar 
+
