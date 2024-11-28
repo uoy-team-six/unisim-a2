@@ -60,18 +60,28 @@ jobs:
         run: ./gradlew :lwjgl3:build
         shell: bash
 
+      - name: Build the lwjgl3 Shadow JAR
+        run: ./gradlew :lwjgl3:shadowJar
+        shell: bash
+
       - name: List JAR Files
         run: ls -la lwjgl3/build/libs/
         shell: bash
 
-      - name: Upload JaCoCo code coverage report
+      - name: Upload JaCoCo Code Coverage Report
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage-report-${{ matrix.os }}
           path: headless/build/reports/jacoco/test/html/**
 
-      - name: Upload JAR
+      - name: Upload Regular JAR
         uses: actions/upload-artifact@v4
         with:
           name: builds-${{ matrix.os }}.jar
           path: lwjgl3/build/libs/unisim-a2-lwjgl3-all-*.jar
+
+      - name: Upload Shadow JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: shadow-builds-${{ matrix.os }}.jar
+          path: lwjgl3/build/libs/unisim-a2-lwjgl3-all-shadow.jar
