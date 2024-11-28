@@ -24,3 +24,9 @@ tasks.shadowJar {
     }
     minimize()
 }
+
+tasks.jar {
+    archiveBaseName.set("unisim-a2-lwjgl3-all") 
+    archiveVersion.set("1.0.0")    
+    destinationDirectory.set(file("$buildDir/libs")) 
+}
