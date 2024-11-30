@@ -61,12 +61,7 @@ jobs:
         shell: bash
 
       - name: Build shadowJar
-        run: |
-         if [[ "$RUNNER_OS" == "Windows" ]]; then
-           gradlew.bat shadowJar
-         else
-           ./gradlew shadowJar
-         fi
+        run: ./gradlew shadowJar
         shell: bash
 
       - name: List JAR Files
