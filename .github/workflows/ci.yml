@@ -56,9 +56,10 @@ jobs:
         run: ./gradlew :headless:test
         shell: bash
 
-      - name: Build the lwjgl3 module
+      - name: Build the lwjgl3 module and run Checkstyle
         run: ./gradlew :lwjgl3:build :lwjgl3:check
         shell: bash
+
 
       - name: Build shadowJar
         run: ./gradlew shadowJar
