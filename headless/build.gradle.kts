@@ -1,4 +1,3 @@
-// Import statements must be at the very top in Kotlin DSL scripts
 import java.net.URL
 import java.io.InputStream
 import java.io.OutputStream
@@ -17,7 +16,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
-    checkstyle("com.puppycrawl.tools:checkstyle:10.12.1") // Use the latest version available
+    checkstyle("com.puppycrawl.tools:checkstyle:10.12.1") 
 }
 
 tasks.test {
@@ -36,17 +35,15 @@ tasks.register("downloadGoogleStyle") {
     outputs.file(outputFile)
     doLast {
         outputFile.parentFile.mkdirs()
-        URL("https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml")
-            .openStream().use { input: InputStream ->
-                outputFile.outputStream().use { output: OutputStream ->
-                    input.copyTo(output)
-                }
-            }
+        val url = "https://raw.githubusercontent.com/checkstyle/checkstyle/checkstyle-10.12.1/src/main/resources/google_checks.xml"
+        val content = URL(url).readText()
+        val modifiedContent = content.replaceFirst(Regex("<!DOCTYPE.*?>"), "")
+        outputFile.writeText(modifiedContent)
     }
 }
 
 checkstyle {
-    toolVersion = "10.12.1" // Ensure this matches the version in dependencies
+    toolVersion = "10.12.1" 
     configFile = file("$buildDir/checkstyle/google_checks.xml")
 }
 
