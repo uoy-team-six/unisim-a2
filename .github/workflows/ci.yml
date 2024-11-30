@@ -48,8 +48,8 @@ jobs:
         run: ./gradlew tasks --all
         shell: bash
 
-      - name: Build the headless module
-        run: ./gradlew :headless:build
+      - name: Build the headless module and run Checkstyle
+        run: ./gradlew :headless:build :headless:check
         shell: bash
 
       - name: Run tests in headless module (includes JaCoCo report generation)
@@ -57,7 +57,7 @@ jobs:
         shell: bash
 
       - name: Build the lwjgl3 module
-        run: ./gradlew :lwjgl3:build
+        run: ./gradlew :lwjgl3:build :lwjgl3:check
         shell: bash
 
       - name: Build shadowJar
@@ -79,3 +79,11 @@ jobs:
         with:
           name: code-coverage-report-${{ matrix.os }}
           path: headless/build/reports/jacoco/test/html/**
+
+      - name: Upload Checkstyle Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report-${{ matrix.os }}
+          path: |
+            **/build/reports/checkstyle/*.html
+            **/build/reports/checkstyle/*.xml
