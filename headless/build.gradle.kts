@@ -1,4 +1,7 @@
-// TODO: Use jacoco plugin to produce test coverage report
+// Import statements must be at the very top in Kotlin DSL scripts
+import java.net.URL
+import java.io.InputStream
+import java.io.OutputStream
 
 plugins {
     `java`
@@ -28,16 +31,14 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test)
 }
 
-import java.net.URL
-
 tasks.register("downloadGoogleStyle") {
     val outputFile = file("$buildDir/checkstyle/google_checks.xml")
     outputs.file(outputFile)
     doLast {
         outputFile.parentFile.mkdirs()
         URL("https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml")
-            .openStream().use { input ->
-                outputFile.outputStream().use { output ->
+            .openStream().use { input: InputStream ->
+                outputFile.outputStream().use { output: OutputStream ->
                     input.copyTo(output)
                 }
             }
@@ -52,5 +53,3 @@ checkstyle {
 tasks.withType<Checkstyle> {
     dependsOn("downloadGoogleStyle")
 }
-
-
