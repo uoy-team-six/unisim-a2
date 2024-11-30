@@ -60,13 +60,27 @@ jobs:
         run: ./gradlew :lwjgl3:build
         shell: bash
 
+      - name: Build shadowJar
+        run: |
+         if [[ "$RUNNER_OS" == "Windows" ]]; then
+           gradlew.bat shadowJar
+         else
+           ./gradlew shadowJar
+         fi
+        shell: bash
+
       - name: List JAR Files
         run: ls -la lwjgl3/build/libs/
         shell: bash
+
+      - name: Upload built JAR as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unisim-a2-lwjgl3-all-${{ matrix.os }}
+          path: lwjgl3/build/libs/unisim-a2-lwjgl3-all.jar
 
       - name: Upload JaCoCo Code Coverage Report
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage-report-${{ matrix.os }}
           path: headless/build/reports/jacoco/test/html/**
-
