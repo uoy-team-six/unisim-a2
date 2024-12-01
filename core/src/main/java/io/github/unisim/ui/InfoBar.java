@@ -22,6 +22,7 @@ public class InfoBar {
     private Label[] buildingCounterLabels = new Label[4];
     private Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
     private Label scoreLabel = new Label("86%", skin);
+    private Label periodLabel = new Label("", skin);
     private Label titleLabel = new Label("UniSim", skin);
     private Label timerLabel;
     private Texture pauseTexture = new Texture("ui/pause.png");
@@ -33,6 +34,7 @@ public class InfoBar {
     private Cell<Label> scoreLabelCell;
     private Cell<Image> pauseButtonCell;
     private Cell<Table> buildingCountersTableCell;
+    private Cell<Label> periodLabelCell;
     private Cell[] buildingCounterCells;
     private World world;
 
@@ -61,6 +63,7 @@ public class InfoBar {
         infoTable.center().center();
         pauseButtonCell = infoTable.add(playImage).align(Align.center);
         timerLabelCell = infoTable.add(timerLabel).align(Align.center);
+        periodLabelCell = infoTable.add(periodLabel).align(Align.center);
         scoreLabelCell = infoTable.add(scoreLabel).align(Align.center);
         buildingCountersTableCell = infoTable.add(buildingCountersTable).expandX().align(Align.right);
 
@@ -98,6 +101,13 @@ public class InfoBar {
         int remainingSeconds = ((int) remainingTime) % 60;
         timerLabel.setText(String.format("%d:%02d", remainingMinutes, remainingSeconds));
 
+        // Update period label.
+        if (gameLogic.isSummer()) {
+            periodLabel.setText(String.format("Year %d Summer", gameLogic.getYear()));
+        } else {
+            periodLabel.setText(String.format("Year %d Semester %d", gameLogic.getYear(), gameLogic.getSemester()));
+        }
+
         buildingCounterLabels[0].setText("Recreation: "
             + Integer.toString(world.getBuildingCount(BuildingType.RECREATION)));
         buildingCounterLabels[1].setText("Learning: "
@@ -130,6 +140,8 @@ public class InfoBar {
         timerLabel.setFontScale(height * 0.002f);
         timerLabelCell.width(height * 0.08f).height(height * 0.05f);
         timerLabelCell.padLeft(height * 0.005f);
+        periodLabel.setFontScale(height * 0.002f);
+        periodLabelCell.width(height * 0.08f).height(height * 0.05f);
         scoreLabel.setFontScale(height * 0.002f);
         scoreLabelCell.width(height * 0.04f).height(height * 0.05f);
         scoreLabelCell.padLeft(Math.min(width, height * 2) * 0.14f);
