@@ -138,8 +138,4 @@ public class InfoBar {
 
         titleLabel.setFontScale(height * 0.003f);
     }
-
-    public void reset() {
-        pauseButtonCell.setActor(playImage);
-    }
 }

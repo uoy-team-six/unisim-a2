@@ -344,20 +344,4 @@ public class World {
     public int getBuildingCount(BuildingType type) {
         return buildingManager.getBuildingCount(type);
     }
-
-    /**
-     * Set the camera position to the starting point, rebuild the isometry matrices
-     * and deselect the selected building.
-     */
-    public void reset() {
-        camPosition = new Vector2(150f, 0f);
-        panVelocity = new Vector2(0f, 0f);
-        zoomVelocity = 0f;
-        panDt = 0f;
-        zoomDt = 0f;
-        camera.zoom = 0.05f;
-        initIsometricTransform();
-        buildingManager = new BuildingManager(isoTransform);
-        selectedBuilding = null;
-    }
 }

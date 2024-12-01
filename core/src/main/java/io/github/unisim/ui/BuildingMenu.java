@@ -156,8 +156,4 @@ public class BuildingMenu {
             buildingInfoLabel.setText("");
         }
     }
-
-    public void reset() {
-        buildingInfoLabel.setText("");
-    }
 }
