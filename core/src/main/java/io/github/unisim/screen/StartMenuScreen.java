@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.unisim.GlobalState;
+import io.github.unisim.UniSimGame;
 
 /**
  * The start menu screen which presents the player with the option to start the
@@ -27,7 +28,7 @@ public class StartMenuScreen extends ScreenAdapter {
     /**
      * Create a new StartMenuScreen and draw the initial UI layout.
      */
-    public StartMenuScreen() {
+    public StartMenuScreen(UniSimGame game) {
         stage = new Stage();
         table = new Table();
         skin = GlobalState.defaultSkin;
@@ -37,8 +38,8 @@ public class StartMenuScreen extends ScreenAdapter {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                // Switch to the game screen
-                GlobalState.currentScreen = GlobalState.gameScreen;
+                // Switch to the game screen.
+                game.setScreen(game.getGameScreen());
             }
         });
 
@@ -47,8 +48,8 @@ public class StartMenuScreen extends ScreenAdapter {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                // Switch to the settings screen
-                GlobalState.currentScreen = GlobalState.settingScreen;
+                // Switch to the settings screen.
+                game.setScreen(game.getSettingsScreen());
             }
         });
 
@@ -81,7 +82,7 @@ public class StartMenuScreen extends ScreenAdapter {
     }
 
     @Override
-    public void resume() {
+    public void show() {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 

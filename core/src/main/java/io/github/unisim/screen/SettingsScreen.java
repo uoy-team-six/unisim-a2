@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.unisim.GlobalState;
+import io.github.unisim.UniSimGame;
 
 /**
  * The settings screen that allows the player to adjust the volume.
@@ -25,7 +26,7 @@ public class SettingsScreen extends ScreenAdapter {
     /**
      * Create a new Settings screen and draw the initial UI layout.
      */
-    public SettingsScreen() {
+    public SettingsScreen(UniSimGame game) {
         stage = new Stage();
         table = new Table();
 
@@ -51,8 +52,8 @@ public class SettingsScreen extends ScreenAdapter {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                // Go back to the start menu
-                GlobalState.currentScreen = GlobalState.startScreen;
+                // Go back to the start menu screen.
+                game.setScreen(game.getStartMenuScreen());
             }
         });
 
@@ -87,7 +88,7 @@ public class SettingsScreen extends ScreenAdapter {
     }
 
     @Override
-    public void resume() {
+    public void show() {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.unisim.GlobalState;
+import io.github.unisim.UniSimGame;
 
 /**
  * Menu that is displayed when the timer has run out. This is where the final score
@@ -27,7 +28,7 @@ public class GameOverMenu {
     /**
      * Creates a new GameOverMenu and initialises all events and UI elements used in the menu.
      */
-    public GameOverMenu() {
+    public GameOverMenu(UniSimGame game) {
         stage = new Stage(new ScreenViewport());
         table = new Table();
         skin = GlobalState.defaultSkin;
@@ -37,8 +38,8 @@ public class GameOverMenu {
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                // Switch to the game screen
-                GlobalState.currentScreen = GlobalState.startScreen;
+                // Switch to the start menu screen.
+                game.setScreen(game.getStartMenuScreen());
             }
         });
 
@@ -50,7 +51,6 @@ public class GameOverMenu {
         inputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);
         inputMultiplexer.addProcessor(stage);
     }
-
 
     public void render(float delta) {
         stage.act(delta);

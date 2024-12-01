@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.unisim.GameLogic;
 import io.github.unisim.GlobalState;
+import io.github.unisim.UniSimGame;
 import io.github.unisim.ui.BuildingMenu;
 import io.github.unisim.ui.GameOverMenu;
 import io.github.unisim.ui.InfoBar;
@@ -28,14 +29,15 @@ public class GameScreen extends ScreenAdapter {
     private final InputProcessor uiInputProcessor = new UiInputProcessor(stage);
     private final InputProcessor worldInputProcessor = new WorldInputProcessor(world, gameLogic);
     private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
-    private final GameOverMenu gameOverMenu = new GameOverMenu();
+    private final GameOverMenu gameOverMenu;
 
     /**
      * Constructor for the GameScreen.
      */
-    public GameScreen() {
+    public GameScreen(UniSimGame game) {
         infoBar = new InfoBar(stage, gameLogic, world);
         buildingMenu = new BuildingMenu(stage, world, gameLogic);
+        gameOverMenu = new GameOverMenu(game);
 
         inputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);
         inputMultiplexer.addProcessor(stage);
@@ -73,14 +75,14 @@ public class GameScreen extends ScreenAdapter {
     }
 
     @Override
-    public void pause() {
-        // Pause game timer if game loses focus.
-        gameLogic.pause();
+    public void show() {
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override
-    public void resume() {
-        Gdx.input.setInputProcessor(inputMultiplexer);
+    public void pause() {
+        // Pause game timer if game loses focus.
+        gameLogic.pause();
     }
 
     @Override

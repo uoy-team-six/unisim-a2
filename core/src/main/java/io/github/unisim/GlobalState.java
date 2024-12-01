@@ -22,10 +22,6 @@ public class GlobalState {
     public static Skin defaultSkin = new Skin(Gdx.files.internal("ui/uiskin.json"));
     public static Settings settings = new Settings();
     public static InputProcessor fullscreenInputProcessor = new FullscreenInputProcessor();
-    public static Screen gameScreen = new GameScreen();
-    public static Screen startScreen = new StartMenuScreen();
-    public static Screen settingScreen = new SettingsScreen();
-    public static Screen currentScreen;
     // Create an unmodifiable set containing the IDs of all buildable tiles
     // we use a set to make searching more efficient
     public static Set<Integer> buildableTiles = Stream.of(
