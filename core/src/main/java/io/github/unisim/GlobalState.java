@@ -5,9 +5,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import io.github.unisim.ui.GameScreen;
-import io.github.unisim.ui.SettingsScreen;
-import io.github.unisim.ui.StartMenuScreen;
+import io.github.unisim.screen.GameScreen;
+import io.github.unisim.screen.SettingsScreen;
+import io.github.unisim.screen.StartMenuScreen;
 
 import java.util.Set;
 import java.util.stream.Collectors;

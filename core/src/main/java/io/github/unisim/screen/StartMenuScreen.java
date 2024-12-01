@@ -1,8 +1,8 @@
-package io.github.unisim.ui;
+package io.github.unisim.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -16,7 +16,7 @@ import io.github.unisim.GlobalState;
  * game
  * or access the settings menu.
  */
-public class StartMenuScreen implements Screen {
+public class StartMenuScreen extends ScreenAdapter {
     private Stage stage;
     private Table table;
     private Skin skin;
@@ -66,10 +66,6 @@ public class StartMenuScreen implements Screen {
     }
 
     @Override
-    public void show() {
-    }
-
-    @Override
     public void render(float delta) {
         // Clear the screen
         ScreenUtils.clear(GlobalState.UISecondaryColour);
@@ -85,16 +81,8 @@ public class StartMenuScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
-
-    @Override
     public void resume() {
         Gdx.input.setInputProcessor(inputMultiplexer);
-    }
-
-    @Override
-    public void hide() {
     }
 
     @Override

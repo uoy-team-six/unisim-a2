@@ -1,13 +1,16 @@
-package io.github.unisim.ui;
+package io.github.unisim.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.unisim.GameLogic;
 import io.github.unisim.GlobalState;
+import io.github.unisim.ui.BuildingMenu;
+import io.github.unisim.ui.GameOverMenu;
+import io.github.unisim.ui.InfoBar;
 import io.github.unisim.world.UiInputProcessor;
 import io.github.unisim.world.World;
 import io.github.unisim.world.WorldInputProcessor;
@@ -16,7 +19,7 @@ import io.github.unisim.world.WorldInputProcessor;
  * Game screen where the main game is rendered and controlled.
  * Supports pausing the game with a pause menu.
  */
-public class GameScreen implements Screen {
+public class GameScreen extends ScreenAdapter {
     private World world = new World();
     private final GameLogic gameLogic = new GameLogic();
     private Stage stage = new Stage(new ScreenViewport());
@@ -38,10 +41,6 @@ public class GameScreen implements Screen {
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(uiInputProcessor);
         inputMultiplexer.addProcessor(worldInputProcessor);
-    }
-
-    @Override
-    public void show() {
     }
 
     @Override
@@ -82,10 +81,6 @@ public class GameScreen implements Screen {
     @Override
     public void resume() {
         Gdx.input.setInputProcessor(inputMultiplexer);
-    }
-
-    @Override
-    public void hide() {
     }
 
     @Override
