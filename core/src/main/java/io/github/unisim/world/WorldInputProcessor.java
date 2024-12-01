@@ -2,6 +2,7 @@ package io.github.unisim.world;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import io.github.unisim.GameLogic;
 import io.github.unisim.GlobalState;
 
 /**
@@ -9,20 +10,26 @@ import io.github.unisim.GlobalState;
  */
 public class WorldInputProcessor extends InputAdapter {
     private World world;
+    private GameLogic gameLogic;
     private int[] cursorPos = new int[2];
     private int[] cursorPosWhenClicked = new int[2];
     private boolean clickedOnWorld = false;
     private boolean draggedSinceClick = true;
 
-    public WorldInputProcessor(World world) {
+    public WorldInputProcessor(World world, GameLogic gameLogic) {
         this.world = world;
+        this.gameLogic = gameLogic;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Keys.SPACE:
-                GlobalState.paused = !GlobalState.paused;
+                if (gameLogic.isPaused()) {
+                    gameLogic.unpause();
+                } else {
+                    gameLogic.pause();
+                }
                 break;
             case Keys.R:
                 // Flip the selected building

@@ -31,6 +31,4 @@ public class GlobalState {
     public static Set<Integer> buildableTiles = Stream.of(
         14, 15).collect(Collectors.toUnmodifiableSet()
     );
-    public static boolean paused = true;
-    public static boolean gameOver = false;
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import io.github.unisim.GameLogic;
 import io.github.unisim.GlobalState;
 import io.github.unisim.Point;
 import io.github.unisim.building.Building;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 @SuppressWarnings({"MemberName", "AbbreviationAsWordInName"})
 public class BuildingMenu {
     private World world;
+    private final GameLogic gameLogic;
     private ShapeActor bar = new ShapeActor(GlobalState.UISecondaryColour);
     private Table table;
     private ArrayList<Building> buildings = new ArrayList<>();
@@ -39,8 +41,9 @@ public class BuildingMenu {
      *
      * @param stage - The stage on which to draw the menu.
      */
-    public BuildingMenu(Stage stage, World world) {
+    public BuildingMenu(Stage stage, World world, GameLogic gameLogic) {
         this.world = world;
+        this.gameLogic = gameLogic;
         // Set building images and sizes
         buildings.add(new Building(
             new Texture(Gdx.files.internal("buildings/restaurant.png")),
@@ -147,7 +150,7 @@ public class BuildingMenu {
      * Called when the building menu needs to be redrawn with new values in the labels.
      */
     public void update() {
-        if (GlobalState.gameOver) {
+        if (gameLogic.isGameOver()) {
             buildingInfoLabel.setText("Game Over!");
         } else if (world.selectedBuilding == null) {
             buildingInfoLabel.setText("");

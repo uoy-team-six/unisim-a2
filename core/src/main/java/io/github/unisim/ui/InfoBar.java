@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import io.github.unisim.GameLogic;
 import io.github.unisim.GlobalState;
-import io.github.unisim.Timer;
 import io.github.unisim.building.BuildingType;
 import io.github.unisim.world.World;
 
@@ -28,7 +28,7 @@ public class InfoBar {
     private Texture playTexture = new Texture("ui/play.png");
     private Image pauseImage = new Image(pauseTexture);
     private Image playImage = new Image(playTexture);
-    private Timer timer;
+    private final GameLogic gameLogic;
     private Cell<Label> timerLabelCell;
     private Cell<Label> scoreLabelCell;
     private Cell<Image> pauseButtonCell;
@@ -41,8 +41,8 @@ public class InfoBar {
      *
      * @param stage - The stage on which to draw the InfoBar.
      */
-    public InfoBar(Stage stage, Timer timer, World world) {
-        this.timer = timer;
+    public InfoBar(Stage stage, GameLogic gameLogic, World world) {
+        this.gameLogic = gameLogic;
         this.world = world;
         buildingCounterCells = new Cell[4];
 
@@ -57,7 +57,7 @@ public class InfoBar {
         buildingCounterCells[3] = buildingCountersTable.add(buildingCounterLabels[3]);
 
         // Info Table
-        timerLabel = new Label(timer.getRemainingTime(), skin);
+        timerLabel = new Label("", skin);
         infoTable.center().center();
         pauseButtonCell = infoTable.add(playImage).align(Align.center);
         timerLabelCell = infoTable.add(timerLabel).align(Align.center);
@@ -68,8 +68,7 @@ public class InfoBar {
         pauseImage.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                GlobalState.paused = true;
-                pauseButtonCell.setActor(playImage);
+                gameLogic.pause();
             }
         });
 
@@ -77,8 +76,7 @@ public class InfoBar {
         playImage.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                GlobalState.paused = false;
-                pauseButtonCell.setActor(pauseImage);
+                gameLogic.unpause();
             }
         });
 
@@ -94,7 +92,12 @@ public class InfoBar {
      * Called when the UI needs to be updated, usually on every frame.
      */
     public void update() {
-        timerLabel.setText(timer.getRemainingTime());
+        // Update timer label.
+        float remainingTime = gameLogic.getRemainingTime();
+        int remainingMinutes = (int) (remainingTime / 60.0f);
+        int remainingSeconds = ((int) remainingTime) % 60;
+        timerLabel.setText(String.format("%d:%02d", remainingMinutes, remainingSeconds));
+
         buildingCounterLabels[0].setText("Recreation: "
             + Integer.toString(world.getBuildingCount(BuildingType.RECREATION)));
         buildingCounterLabels[1].setText("Learning: "
@@ -103,7 +106,7 @@ public class InfoBar {
             + Integer.toString(world.getBuildingCount(BuildingType.EATING)));
         buildingCounterLabels[3].setText("Sleeping: "
             + Integer.toString(world.getBuildingCount(BuildingType.SLEEPING)));
-        pauseButtonCell.setActor(GlobalState.paused ? playImage : pauseImage);
+        pauseButtonCell.setActor(gameLogic.isPaused() ? playImage : pauseImage);
     }
 
     /**
