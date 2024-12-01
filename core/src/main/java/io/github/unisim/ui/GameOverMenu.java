@@ -16,13 +16,13 @@ import io.github.unisim.GlobalState;
  * will be calculated in future.
  */
 public class GameOverMenu {
-    private Stage stage;
-    private Skin skin;
-    private ShapeActor bar = new ShapeActor(GlobalState.UISecondaryColour);
-    private Table table;
-    private TextButton mainMenuButton;
-    private Cell<TextButton> buttonCell;
-    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
+    private final Stage stage;
+    private final Skin skin;
+    private final ShapeActor bar = new ShapeActor(GlobalState.UISecondaryColour);
+    private final Table table;
+    private final TextButton mainMenuButton;
+    private final Cell<TextButton> buttonCell;
+    private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     /**
      * Creates a new GameOverMenu and initialises all events and UI elements used in the menu.

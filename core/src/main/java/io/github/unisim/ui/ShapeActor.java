@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * Simple actor that generates a rectangle with a provided colour.
  */
 public class ShapeActor extends Actor {
-    private ShapeRenderer renderer = new ShapeRenderer();
-    private Color color;
+    private final ShapeRenderer renderer = new ShapeRenderer();
+    private final Color color;
 
     /**
      * Create a new Actor that can be attached to the stage to draw a rectangle.

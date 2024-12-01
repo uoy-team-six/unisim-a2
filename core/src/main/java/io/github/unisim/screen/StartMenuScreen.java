@@ -17,12 +17,12 @@ import io.github.unisim.GlobalState;
  * or access the settings menu.
  */
 public class StartMenuScreen extends ScreenAdapter {
-    private Stage stage;
-    private Table table;
-    private Skin skin;
-    private TextButton playButton;
-    private TextButton settingsButton;
-    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
+    private final Stage stage;
+    private final Table table;
+    private final Skin skin;
+    private final TextButton playButton;
+    private final TextButton settingsButton;
+    private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     /**
      * Create a new StartMenuScreen and draw the initial UI layout.

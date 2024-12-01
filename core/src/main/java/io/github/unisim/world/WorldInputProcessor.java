@@ -9,10 +9,10 @@ import io.github.unisim.GlobalState;
  * Handles input events related to the world, after they have passed through the UiInputProcessor.
  */
 public class WorldInputProcessor extends InputAdapter {
-    private World world;
-    private GameLogic gameLogic;
-    private int[] cursorPos = new int[2];
-    private int[] cursorPosWhenClicked = new int[2];
+    private final World world;
+    private final GameLogic gameLogic;
+    private final int[] cursorPos = new int[2];
+    private final int[] cursorPosWhenClicked = new int[2];
     private boolean clickedOnWorld = false;
     private boolean draggedSinceClick = true;
 

@@ -20,15 +20,15 @@ import io.github.unisim.world.WorldInputProcessor;
  * Supports pausing the game with a pause menu.
  */
 public class GameScreen extends ScreenAdapter {
-    private World world = new World();
+    private final World world = new World();
     private final GameLogic gameLogic = new GameLogic();
-    private Stage stage = new Stage(new ScreenViewport());
-    private InfoBar infoBar;
-    private BuildingMenu buildingMenu;
-    private InputProcessor uiInputProcessor = new UiInputProcessor(stage);
-    private InputProcessor worldInputProcessor = new WorldInputProcessor(world, gameLogic);
-    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
-    private GameOverMenu gameOverMenu = new GameOverMenu();
+    private final Stage stage = new Stage(new ScreenViewport());
+    private final InfoBar infoBar;
+    private final BuildingMenu buildingMenu;
+    private final InputProcessor uiInputProcessor = new UiInputProcessor(stage);
+    private final InputProcessor worldInputProcessor = new WorldInputProcessor(world, gameLogic);
+    private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
+    private final GameOverMenu gameOverMenu = new GameOverMenu();
 
     /**
      * Constructor for the GameScreen.

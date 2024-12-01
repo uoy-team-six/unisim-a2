@@ -14,13 +14,13 @@ import io.github.unisim.GlobalState;
  * The settings screen that allows the player to adjust the volume.
  */
 public class SettingsScreen extends ScreenAdapter {
-    private Stage stage;
-    private Table table;
-    private Skin skin = GlobalState.defaultSkin;
-    private Slider volumeSlider;
-    private Label volumeLabel;
-    private TextButton backButton;
-    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
+    private final Stage stage;
+    private final Table table;
+    private final Skin skin = GlobalState.defaultSkin;
+    private final Slider volumeSlider;
+    private final Label volumeLabel;
+    private final TextButton backButton;
+    private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     /**
      * Create a new Settings screen and draw the initial UI layout.

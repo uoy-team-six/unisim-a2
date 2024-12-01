@@ -25,26 +25,25 @@ import io.github.unisim.building.BuildingType;
  * It has the ablity to render the game and update the state of the game
  */
 public class World {
-    private OrthographicCamera camera = new OrthographicCamera();
-    private Viewport viewport = new ScreenViewport(camera);
-    private TiledMap map = new TmxMapLoader().load("map/medium_map.tmx");
-    private float unitScale = 1f / 16f;
-    private IsometricTiledMapRenderer renderer = new IsometricTiledMapRenderer(map, unitScale);
-    private Vector2 camPosition = new Vector2(150f, 0f);
-    private Vector2 panVelocity = new Vector2(0f, 0f);
+    private final OrthographicCamera camera = new OrthographicCamera();
+    private final Viewport viewport = new ScreenViewport(camera);
+    private final TiledMap map = new TmxMapLoader().load("map/medium_map.tmx");
+    private final IsometricTiledMapRenderer renderer = new IsometricTiledMapRenderer(map, 1.0f / 16.0f);
+    private final Vector2 camPosition = new Vector2(150f, 0f);
+    private final Vector2 panVelocity = new Vector2(0f, 0f);
     private float zoomVelocity = 0f;
     private final float timeStepSize = 0.001f;
     private float panDt = 0f;
     private float zoomDt = 0f;
     private float minZoom;
     private float maxZoom;
-    private SpriteBatch tileHighlightBatch = new SpriteBatch();
-    private SpriteBatch buildingBatch = new SpriteBatch();
-    private Texture tileHighlight = new Texture(Gdx.files.internal("map/tileHighlight.png"));
-    private Texture errTileHighlight = new Texture(Gdx.files.internal("map/errTileHighlight.png"));
+    private final SpriteBatch tileHighlightBatch = new SpriteBatch();
+    private final SpriteBatch buildingBatch = new SpriteBatch();
+    private final Texture tileHighlight = new Texture(Gdx.files.internal("map/tileHighlight.png"));
+    private final Texture errTileHighlight = new Texture(Gdx.files.internal("map/errTileHighlight.png"));
     private Matrix4 isoTransform;
     private Matrix4 invIsoTransform;
-    private BuildingManager buildingManager;
+    private final BuildingManager buildingManager;
     private boolean canBuild;
     private Point mousePosInWorld;
     private Point btmLeft;

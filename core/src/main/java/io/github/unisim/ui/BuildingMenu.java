@@ -17,6 +17,7 @@ import io.github.unisim.building.BuildingType;
 import io.github.unisim.world.World;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Menu used to place buildings in the world by clicking and dragging them
@@ -24,16 +25,16 @@ import java.util.ArrayList;
  */
 @SuppressWarnings({"MemberName", "AbbreviationAsWordInName"})
 public class BuildingMenu {
-    private World world;
+    private final World world;
     private final GameLogic gameLogic;
-    private ShapeActor bar = new ShapeActor(GlobalState.UISecondaryColour);
-    private Table table;
-    private ArrayList<Building> buildings = new ArrayList<>();
-    private ArrayList<Image> buildingImages = new ArrayList<>();
-    private Label buildingInfoLabel = new Label(
+    private final ShapeActor bar = new ShapeActor(GlobalState.UISecondaryColour);
+    private final Table table;
+    private final List<Building> buildings = new ArrayList<>();
+    private final List<Image> buildingImages = new ArrayList<>();
+    private final Label buildingInfoLabel = new Label(
         "", new Skin(Gdx.files.internal("ui/uiskin.json"))
     );
-    private Table buildingInfoTable = new Table();
+    private final Table buildingInfoTable = new Table();
 
     /**
      * Create a Building Menu and attach its actors and components to the provided stage.

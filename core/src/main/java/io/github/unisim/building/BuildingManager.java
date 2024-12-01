@@ -11,6 +11,7 @@ import io.github.unisim.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,9 +20,9 @@ import java.util.Map;
 public class BuildingManager {
     // create a list of buildings which will be sorted by a height metric derived from
     // the locations of the corners of the buildings.
-    private ArrayList<Building> buildings = new ArrayList<>();
-    private Map<BuildingType, Integer> buildingCounts = new HashMap<>();
-    private Matrix4 isoTransform;
+    private final List<Building> buildings = new ArrayList<>();
+    private final Map<BuildingType, Integer> buildingCounts = new HashMap<>();
+    private final Matrix4 isoTransform;
     private Building previewBuilding;
 
     public BuildingManager(Matrix4 isoTransform) {
