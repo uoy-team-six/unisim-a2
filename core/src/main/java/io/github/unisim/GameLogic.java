@@ -30,6 +30,14 @@ public class GameLogic {
     }
 
     /**
+     * Places the currently selected building.
+     */
+    public boolean placeBuilding() {
+        money -= world.selectedBuilding.price;
+        return world.placeBuilding();
+    }
+
+    /**
      * Updates the game logic.
      *
      * @param deltaTime the delta time between the last call of update

@@ -68,7 +68,7 @@ public class WorldInputProcessor extends InputAdapter {
     public boolean touchUp(int x, int y, int pointer, int button) {
         clickedOnWorld = false;
         if (!draggedSinceClick && world.selectedBuilding != null) {
-            if (world.placeBuilding()) {
+            if (gameLogic.placeBuilding()) {
                 draggedSinceClick = true;
             }
         }

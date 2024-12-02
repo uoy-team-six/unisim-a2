@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.unisim.GlobalState;
 import io.github.unisim.Point;
 import io.github.unisim.building.Building;
 import io.github.unisim.building.BuildingManager;
@@ -326,7 +325,7 @@ public class World {
             new Building(
                 selectedBuilding.texture, selectedBuilding.textureScale, selectedBuilding.textureOffset,
                 selectedBuilding.location.getNewPoint(), selectedBuilding.size.getNewPoint(),
-                selectedBuilding.flipped, selectedBuilding.type, selectedBuilding.name
+                selectedBuilding.flipped, selectedBuilding.type, selectedBuilding.name, selectedBuilding.price
             )
         );
         selectedBuilding = null;
