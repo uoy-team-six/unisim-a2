@@ -1,17 +1,25 @@
 package io.github.unisim;
 
+import com.badlogic.gdx.math.MathUtils;
+
 public class GameLogic {
+    // Time related constants.
     private static final int TOTAL_GAME_TIME = 5 * 60;
     private static final int ONE_YEAR_TIME = 100;
     private static final int SUMMER_TIME = 20;
 
+    // Money related constants.
+    private static final int STARTING_MONEY = 50_000;
+
     private GameState gameState;
     private float remainingTime;
+    private int money;
 
     public GameLogic() {
         // Start in a paused state.
         gameState = GameState.PAUSED;
         remainingTime = TOTAL_GAME_TIME;
+        money = STARTING_MONEY;
     }
 
     /**
@@ -31,6 +39,8 @@ public class GameLogic {
 
         // Tick timer down.
         remainingTime -= deltaTime;
+
+        money += MathUtils.random(0, 5);
     }
 
     /**
@@ -84,5 +94,9 @@ public class GameLogic {
 
     public float getRemainingTime() {
         return remainingTime;
+    }
+
+    public int getMoney() {
+        return money;
     }
 }

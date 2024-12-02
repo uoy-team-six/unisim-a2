@@ -23,6 +23,7 @@ public class InfoBar {
     private Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
     private Label scoreLabel = new Label("86%", skin);
     private Label periodLabel = new Label("", skin);
+    private Label moneyLabel = new Label("", skin);
     private Label titleLabel = new Label("UniSim", skin);
     private Label timerLabel;
     private Texture pauseTexture = new Texture("ui/pause.png");
@@ -35,6 +36,7 @@ public class InfoBar {
     private Cell<Image> pauseButtonCell;
     private Cell<Table> buildingCountersTableCell;
     private Cell<Label> periodLabelCell;
+    private Cell<Label> moneyLabelCell;
     private Cell[] buildingCounterCells;
     private World world;
 
@@ -64,6 +66,7 @@ public class InfoBar {
         pauseButtonCell = infoTable.add(playImage).align(Align.center);
         timerLabelCell = infoTable.add(timerLabel).align(Align.center);
         periodLabelCell = infoTable.add(periodLabel).align(Align.center);
+        moneyLabelCell = infoTable.add(moneyLabel).align(Align.center);
         scoreLabelCell = infoTable.add(scoreLabel).align(Align.center);
         buildingCountersTableCell = infoTable.add(buildingCountersTable).expandX().align(Align.right);
 
@@ -108,6 +111,9 @@ public class InfoBar {
             periodLabel.setText(String.format("Year %d Semester %d", gameLogic.getYear(), gameLogic.getSemester()));
         }
 
+        // Update money label.
+        moneyLabel.setText(String.format("£%d", gameLogic.getMoney()));
+
         buildingCounterLabels[0].setText("Recreation: "
             + Integer.toString(world.getBuildingCount(BuildingType.RECREATION)));
         buildingCounterLabels[1].setText("Learning: "
@@ -141,10 +147,11 @@ public class InfoBar {
         timerLabelCell.width(height * 0.08f).height(height * 0.05f);
         timerLabelCell.padLeft(height * 0.005f);
         periodLabel.setFontScale(height * 0.002f);
-        periodLabelCell.width(height * 0.08f).height(height * 0.05f);
+        periodLabelCell.width(height * 0.24f).height(height * 0.05f);
+        moneyLabel.setFontScale(height * 0.002f);
+        moneyLabelCell.width(height * 0.16f).height(height * 0.05f);
         scoreLabel.setFontScale(height * 0.002f);
         scoreLabelCell.width(height * 0.04f).height(height * 0.05f);
-        scoreLabelCell.padLeft(Math.min(width, height * 2) * 0.14f);
         pauseButtonCell.width(height * 0.03f).height(height * 0.03f)
             .padLeft(height * 0.01f).padRight(height * 0.01f);
 
