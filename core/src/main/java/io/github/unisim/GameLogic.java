@@ -1,6 +1,8 @@
 package io.github.unisim;
 
 import com.badlogic.gdx.math.MathUtils;
+import io.github.unisim.building.BuildingType;
+import io.github.unisim.world.World;
 
 public class GameLogic {
     // Time related constants.
@@ -9,13 +11,18 @@ public class GameLogic {
     private static final int SUMMER_TIME = 20;
 
     // Money related constants.
-    private static final int STARTING_MONEY = 50_000;
+    private static final int STARTING_MONEY = 5000;
 
+    private final World world;
     private GameState gameState;
     private float remainingTime;
     private int money;
 
-    public GameLogic() {
+    private int lastUpdateYear;
+
+    public GameLogic(World world) {
+        this.world = world;
+
         // Start in a paused state.
         gameState = GameState.PAUSED;
         remainingTime = TOTAL_GAME_TIME;
@@ -40,7 +47,13 @@ public class GameLogic {
         // Tick timer down.
         remainingTime -= deltaTime;
 
-        money += MathUtils.random(0, 5);
+        // Add money if year has ticked. Each student brings in £100.
+        final int year = getYear();
+        if (lastUpdateYear != year) {
+            final int studentCount = world.getBuildingCount(BuildingType.SLEEPING) * 20;
+            money += studentCount * 100;
+        }
+        lastUpdateYear = year;
     }
 
     /**

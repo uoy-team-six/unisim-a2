@@ -22,7 +22,7 @@ import io.github.unisim.world.WorldInputProcessor;
  */
 public class GameScreen extends ScreenAdapter {
     private final World world = new World();
-    private final GameLogic gameLogic = new GameLogic();
+    private final GameLogic gameLogic = new GameLogic(world);
     private final Stage stage = new Stage(new ScreenViewport());
     private final InfoBar infoBar;
     private final BuildingMenu buildingMenu;
