@@ -18,7 +18,7 @@ tasks.register("downloadGoogleStyle") {
     outputs.file(outputFile)
     doLast {
         outputFile.parentFile.mkdirs()
-        val url = "https://raw.githubusercontent.com/checkstyle/checkstyle/10.12.1/src/main/resources/google_checks.xml"
+        val url = "https://raw.githubusercontent.com/checkstyle/checkstyle/checkstyle-10.12.1/src/main/resources/google_checks.xml"
         val content = URL(url).readText()
         val modifiedContent = content.replaceFirst(Regex("<!DOCTYPE.*?>"), "")
         outputFile.writeText(modifiedContent)
@@ -52,7 +52,6 @@ subprojects {
     }
 
     dependencies {
-        // Adjust as needed; including test dependencies here
         testImplementation(platform("org.junit:junit-bom:5.10.0"))
         testImplementation("org.junit.jupiter:junit-jupiter")
     }
