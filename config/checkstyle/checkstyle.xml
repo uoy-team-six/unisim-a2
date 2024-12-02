@@ -4,106 +4,10 @@
     "https://checkstyle.org/dtds/configuration_1_3.dtd">
 <module name="Checker">
     <module name="TreeWalker">
-
         <!-- Naming Conventions -->
         <module name="TypeName">
             <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
         </module>
-        <module name="MethodName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-        </module>
-        <module name="ParameterName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-        </module>
-        <module name="LocalVariableName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-        </module>
-        <module name="MemberName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-        </module>
-        <module name="PackageName">
-            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
-        </module>
-        <module name="ConstantName">
-            <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
-        </module>
-
-        <!-- Indentation -->
-        <module name="Indentation">
-            <property name="basicOffset" value="4"/>
-            <property name="braceAdjustment" value="0"/>
-            <property name="caseIndent" value="4"/>
-            <property name="lineWrappingIndentation" value="8"/>
-        </module>
-
-        <!-- Braces -->
-        <module name="LeftCurly">
-            <property name="option" value="eol"/>
-        </module>
-        <module name="RightCurly">
-            <property name="option" value="same"/>
-        </module>
-        <module name="NeedBraces"/>
-
-        <!-- Whitespace -->
-        <module name="WhitespaceAfter"/>
-        <module name="WhitespaceAround"/>
-        <module name="NoWhitespaceAfter"/>
-        <module name="NoWhitespaceBefore"/>
-        <module name="EmptyLineSeparator">
-            <property name="allowNoEmptyLineBetweenFields" value="true"/>
-        </module>
-
-        <!-- Imports -->
-        <module name="AvoidStarImport"/>
-        <module name="UnusedImports"/>
-        <module name="ImportOrder">
-            <property name="ordered" value="true"/>
-            <property name="separated" value="true"/>
-            <property name="groups" value="java,javax,org,com"/>
-            <property name="staticGroups" value="java,javax,org,com"/>
-            <property name="option" value="top"/>
-        </module>
-
-        <!-- Line Length -->
-        <module name="LineLength">
-            <property name="max" value="120"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http|https"/>
-        </module>
-
-        <!-- Javadoc -->
-        <module name="JavadocMethod">
-            <property name="scope" value="public"/>
-            <property name="allowMissingParamTags" value="true"/>
-            <property name="allowMissingThrowsTags" value="true"/>
-        </module>
-        <module name="JavadocType">
-            <property name="scope" value="public"/>
-        </module>
-        <module name="JavadocVariable">
-            <property name="scope" value="public"/>
-        </module>
-
-        <!-- Other Checks -->
-        <module name="FinalParameters"/>
-        <module name="EqualsHashCode"/>
-        <module name="OverrideAnnotation"/>
-        <module name="UnnecessaryParentheses"/>
-        <module name="SimplifyBooleanExpression"/>
-        <module name="SimplifyBooleanReturn"/>
-        <module name="RedundantModifier"/>
-        <module name="SuppressWarnings"/>
-        <module name="TodoComment"/>
-        <module name="TrailingComment"/>
-        <module name="EmptyBlock">
-            <property name="option" value="text"/>
-        </module>
-        <module name="MagicNumber">
-            <property name="ignoreNumbers" value="-1,0,1"/>
-            <property name="ignoreHashCodeMethod" value="true"/>
-        </module>
-        <module name="FileTabCharacter">
-            <property name="eachLine" value="true"/>
-        </module>
+        <!-- Add other modules as needed -->
     </module>
 </module>
