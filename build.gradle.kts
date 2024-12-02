@@ -1,9 +1,6 @@
-import java.net.URL
-
 plugins {
     `java`
     checkstyle
-    jacoco
 }
 
 group = "io.github.unisim"
@@ -13,22 +10,9 @@ repositories {
     mavenCentral()
 }
 
-tasks.register("downloadGoogleStyle") {
-    val outputFile = file("$buildDir/checkstyle/google_checks.xml")
-    outputs.file(outputFile)
-    doLast {
-        outputFile.parentFile.mkdirs()
-        val url = "https://raw.githubusercontent.com/checkstyle/checkstyle/checkstyle-10.12.1/src/main/resources/google_checks.xml"
-        val content = URL(url).readText()
-        val modifiedContent = content.replaceFirst(Regex("<!DOCTYPE.*?>"), "")
-        outputFile.writeText(modifiedContent)
-    }
-}
-
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = "checkstyle")
-    apply(plugin = "jacoco")
 
     repositories {
         mavenCentral()
@@ -44,11 +28,7 @@ subprojects {
 
     configure<CheckstyleExtension> {
         toolVersion = "10.12.1"
-        configFile = rootProject.file("${rootProject.buildDir}/checkstyle/google_checks.xml")
-    }
-
-    tasks.withType<Checkstyle> {
-        dependsOn(rootProject.tasks.named("downloadGoogleStyle"))
+        configFile = rootProject.file("config/checkstyle/checkstyle.xml")
     }
 
     dependencies {
@@ -58,10 +38,5 @@ subprojects {
 
     tasks.withType<Test> {
         useJUnitPlatform()
-        finalizedBy("jacocoTestReport")
-    }
-
-    tasks.named<JacocoReport>("jacocoTestReport") {
-        dependsOn(tasks.named("test"))
     }
 }
