@@ -45,7 +45,7 @@ jobs:
         shell: bash
 
       - name: Run Checkstyle
-        run: ./gradlew checkstyle
+        run: ./gradlew checkstyleMain checkstyleTest
         shell: bash
 
       - name: Upload Checkstyle Reports
