@@ -40,28 +40,33 @@ jobs:
         if: runner.os != 'Windows'
         run: chmod +x gradlew
 
-      - name: List Projects
-        run: ./gradlew projects
+      - name: Build the project
+        run: ./gradlew build
         shell: bash
 
-      - name: List Available Tasks
-        run: ./gradlew tasks --all
+      - name: Run Checkstyle
+        run: ./gradlew checkstyle
         shell: bash
 
-      - name: Build the headless module and run Checkstyle
-        run: ./gradlew :headless:build :headless:check
+      - name: Upload Checkstyle Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report-${{ matrix.os }}
+          path: |
+            **/build/reports/checkstyle/*.html
+            **/build/reports/checkstyle/*.xml
+
+      - name: Run tests and generate JaCoCo report
+        run: ./gradlew test jacocoTestReport
         shell: bash
 
-      - name: Run tests in headless module (includes JaCoCo report generation)
-        run: ./gradlew :headless:test
-        shell: bash
+      - name: Upload JaCoCo Code Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report-${{ matrix.os }}
+          path: headless/build/reports/jacoco/test/html/**
 
-      - name: Build the lwjgl3 module and run Checkstyle
-        run: ./gradlew :lwjgl3:build :lwjgl3:check
-        shell: bash
-
-
-      - name: Build shadowJar
+      - name: Compile JAR using shadowJar
         run: ./gradlew shadowJar
         shell: bash
 
@@ -74,17 +79,3 @@ jobs:
         with:
           name: unisim-a2-lwjgl3-all-${{ matrix.os }}
           path: lwjgl3/build/libs/unisim-a2-lwjgl3-all.jar
-
-      - name: Upload JaCoCo Code Coverage Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-report-${{ matrix.os }}
-          path: headless/build/reports/jacoco/test/html/**
-
-      - name: Upload Checkstyle Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: checkstyle-report-${{ matrix.os }}
-          path: |
-            **/build/reports/checkstyle/*.html
-            **/build/reports/checkstyle/*.xml
