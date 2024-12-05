@@ -8,8 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.unisim.Difficulty;
 import io.github.unisim.GlobalState;
 import io.github.unisim.UniSimGame;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * The settings screen that allows the player to adjust the volume.
@@ -45,6 +49,18 @@ public class SettingsScreen extends ScreenAdapter {
             return false;
         });
 
+        var difficultyLabel = new Label("Difficulty: ", skin);
+        difficultyLabel.setColor(new Color(0.9f, 0.9f, 0.9f, 1.0f));
+        var difficultySelector = new SelectBox<String>(skin);
+        var difficultyNames = Stream.of(Difficulty.values()).map(Difficulty::getName).toArray(String[]::new);
+        difficultySelector.setItems(difficultyNames);
+        difficultySelector.setSelectedIndex(Arrays.asList(Difficulty.values()).indexOf(GlobalState.settings.getDifficulty()));
+        difficultySelector.addListener(event -> {
+            final var difficulty = Difficulty.values()[difficultySelector.getSelectedIndex()];
+            GlobalState.settings.setDifficulty(difficulty);
+            return false;
+        });
+
         // Back button
         backButton = new TextButton("Back", skin);
         backButton.setPosition(150, 80);
@@ -62,6 +78,10 @@ public class SettingsScreen extends ScreenAdapter {
         table.center().center();
         table.pad(100, 100, 100, 100);
         table.add(backButton).center().width(250).height(67).padBottom(10);
+        table.row();
+        table.add(difficultyLabel).center().padBottom(15.0f);
+        table.row();
+        table.add(difficultySelector).center().padBottom(20.0f);
         table.row();
         table.add(volumeLabel).center();
         table.row();
