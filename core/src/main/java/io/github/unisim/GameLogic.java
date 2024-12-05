@@ -31,8 +31,13 @@ public class GameLogic {
 
     /**
      * Places the currently selected building.
+     *
+     * @return true if the building was placed; false if not
      */
     public boolean placeBuilding() {
+        if (money < world.selectedBuilding.price) {
+            return false;
+        }
         money -= world.selectedBuilding.price;
         return world.placeBuilding();
     }
