@@ -39,7 +39,7 @@ public class StartMenuScreen extends ScreenAdapter {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 // Switch to the game screen.
-                game.setScreen(game.getGameScreen());
+                game.setScreen(game.createGameScreen());
             }
         });
 

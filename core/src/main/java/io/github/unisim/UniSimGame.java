@@ -16,10 +16,9 @@ public class UniSimGame extends Game {
 
     @Override
     public void create() {
-        // Create all of our screens.
+        // Create all of our stateless screens.
         startMenuScreen = new StartMenuScreen(this);
         settingsScreen = new SettingsScreen(this);
-        gameScreen = new GameScreen(this);
 
         // Start in the start menu screen.
         setScreen(startMenuScreen);
@@ -36,7 +35,9 @@ public class UniSimGame extends Game {
         super.dispose();
 
         // Call dispose manually for our screens, Game::dispose() only calls Screen::hide() for the active screen.
-        gameScreen.dispose();
+        if (gameScreen != null) {
+            gameScreen.dispose();
+        }
         settingsScreen.dispose();
         startMenuScreen.dispose();
     }
@@ -49,7 +50,17 @@ public class UniSimGame extends Game {
         ((FullscreenInputProcessor) GlobalState.fullscreenInputProcessor).resize(width, height);
         startMenuScreen.resize(width, height);
         settingsScreen.resize(width, height);
-        gameScreen.resize(width, height);
+        if (gameScreen != null) {
+            gameScreen.resize(width, height);
+        }
+    }
+
+    public Screen createGameScreen() {
+        if (gameScreen != null) {
+            gameScreen.dispose();
+        }
+        gameScreen = new GameScreen(this);
+        return gameScreen;
     }
 
     public Screen getStartMenuScreen() {
@@ -58,9 +69,5 @@ public class UniSimGame extends Game {
 
     public Screen getSettingsScreen() {
         return settingsScreen;
-    }
-
-    public Screen getGameScreen() {
-        return gameScreen;
     }
 }
