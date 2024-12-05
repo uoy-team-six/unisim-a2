@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.unisim.Difficulty;
+import io.github.unisim.GameCursor;
 import io.github.unisim.GlobalState;
 import io.github.unisim.UniSimGame;
 
@@ -19,6 +20,7 @@ import java.util.stream.Stream;
  * The settings screen that allows the player to adjust the volume.
  */
 public class SettingsScreen extends ScreenAdapter {
+    private final UniSimGame game;
     private final Stage stage;
     private final Table table;
     private final Skin skin = GlobalState.defaultSkin;
@@ -31,6 +33,7 @@ public class SettingsScreen extends ScreenAdapter {
      * Create a new Settings screen and draw the initial UI layout.
      */
     public SettingsScreen(UniSimGame game) {
+        this.game = game;
         stage = new Stage();
         table = new Table();
 
@@ -96,6 +99,9 @@ public class SettingsScreen extends ScreenAdapter {
     public void render(float delta) {
         // Clear the screen
         ScreenUtils.clear(GlobalState.UISecondaryColour);
+
+        // Set the pointer cursor.
+        game.setCursor(GameCursor.POINTER);
 
         // Draw the stage containing the volume slider and buttons
         stage.act(delta);

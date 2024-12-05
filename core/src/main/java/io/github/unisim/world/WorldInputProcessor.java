@@ -15,6 +15,7 @@ public class WorldInputProcessor extends InputAdapter {
     private final int[] cursorPosWhenClicked = new int[2];
     private boolean clickedOnWorld = false;
     private boolean draggedSinceClick = true;
+    private boolean panning = false;
 
     public WorldInputProcessor(World world, GameLogic gameLogic) {
         this.world = world;
@@ -54,6 +55,7 @@ public class WorldInputProcessor extends InputAdapter {
      */
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
+        panning = true;
         clickedOnWorld = true;
         draggedSinceClick = false;
         cursorPos[0] = cursorPosWhenClicked[0] = x;
@@ -67,6 +69,7 @@ public class WorldInputProcessor extends InputAdapter {
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
         clickedOnWorld = false;
+        panning = false;
         if (!draggedSinceClick && world.selectedBuilding != null) {
             if (gameLogic.placeBuilding()) {
                 draggedSinceClick = true;
@@ -101,5 +104,9 @@ public class WorldInputProcessor extends InputAdapter {
     public boolean scrolled(float amountX, float amountY) {
         world.zoom(amountY);
         return true;
+    }
+
+    public boolean isPanning() {
+        return panning;
     }
 }

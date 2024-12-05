@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import io.github.unisim.GameCursor;
 import io.github.unisim.GlobalState;
 import io.github.unisim.UniSimGame;
 
@@ -18,6 +19,7 @@ import io.github.unisim.UniSimGame;
  * or access the settings menu.
  */
 public class StartMenuScreen extends ScreenAdapter {
+    private final UniSimGame game;
     private final Stage stage;
     private final Table table;
     private final Skin skin;
@@ -29,6 +31,7 @@ public class StartMenuScreen extends ScreenAdapter {
      * Create a new StartMenuScreen and draw the initial UI layout.
      */
     public StartMenuScreen(UniSimGame game) {
+        this.game = game;
         stage = new Stage();
         table = new Table();
         skin = GlobalState.defaultSkin;
@@ -70,6 +73,9 @@ public class StartMenuScreen extends ScreenAdapter {
     public void render(float delta) {
         // Clear the screen
         ScreenUtils.clear(GlobalState.UISecondaryColour);
+
+        // Set the pointer cursor.
+        game.setCursor(GameCursor.POINTER);
 
         // Draw the stage containing buttons
         stage.act(delta);

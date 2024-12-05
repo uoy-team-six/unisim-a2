@@ -1,21 +1,37 @@
 package io.github.unisim;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Pixmap;
 import io.github.unisim.screen.GameScreen;
 import io.github.unisim.screen.SettingsScreen;
 import io.github.unisim.screen.StartMenuScreen;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class implementing the main game loop by extending from {@link Game}.
  */
 public class UniSimGame extends Game {
+    private Map<GameCursor, Cursor> cursorMap;
     private Screen startMenuScreen;
     private Screen settingsScreen;
     private Screen gameScreen;
 
     @Override
     public void create() {
+        // Create a map from our cursors to GDX cursors.
+        cursorMap = new HashMap<>();
+
+        // Load all the cursors.
+        for (var cursor : GameCursor.values()) {
+            var pixmap = new Pixmap(Gdx.files.internal(cursor.getPath()));
+            cursorMap.put(cursor, Gdx.graphics.newCursor(pixmap, 0, 0));
+        }
+
         // Create all of our stateless screens.
         startMenuScreen = new StartMenuScreen(this);
         settingsScreen = new SettingsScreen(this);
@@ -61,6 +77,11 @@ public class UniSimGame extends Game {
         }
         gameScreen = new GameScreen(this);
         return gameScreen;
+    }
+
+    public void setCursor(GameCursor cursor) {
+        var gdxCursor = cursorMap.get(cursor);
+        Gdx.graphics.setCursor(gdxCursor);
     }
 
     public Screen getStartMenuScreen() {

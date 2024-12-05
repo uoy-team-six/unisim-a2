@@ -342,4 +342,12 @@ public class World {
     public int getBuildingCount(BuildingType type) {
         return buildingManager.getBuildingCount(type);
     }
+
+    public boolean isZoomingIn() {
+        return zoomVelocity < -0.0001f;
+    }
+
+    public boolean isZoomingOut() {
+        return zoomVelocity > 0.0001f;
+    }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.unisim.GameCursor;
 import io.github.unisim.GameLogic;
 import io.github.unisim.GlobalState;
 import io.github.unisim.UniSimGame;
@@ -21,13 +22,14 @@ import io.github.unisim.world.WorldInputProcessor;
  * Supports pausing the game with a pause menu.
  */
 public class GameScreen extends ScreenAdapter {
+    private final UniSimGame game;
     private final World world = new World();
     private final GameLogic gameLogic = new GameLogic(world);
     private final Stage stage = new Stage(new ScreenViewport());
     private final InfoBar infoBar;
     private final BuildingMenu buildingMenu;
     private final InputProcessor uiInputProcessor = new UiInputProcessor(stage);
-    private final InputProcessor worldInputProcessor = new WorldInputProcessor(world, gameLogic);
+    private final WorldInputProcessor worldInputProcessor = new WorldInputProcessor(world, gameLogic);
     private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
     private final GameOverMenu gameOverMenu;
 
@@ -35,6 +37,7 @@ public class GameScreen extends ScreenAdapter {
      * Constructor for the GameScreen.
      */
     public GameScreen(UniSimGame game) {
+        this.game = game;
         infoBar = new InfoBar(stage, gameLogic, world);
         buildingMenu = new BuildingMenu(stage, world, gameLogic);
         gameOverMenu = new GameOverMenu(game);
@@ -47,6 +50,17 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float deltaTime) {
+        // Set cursor.
+        if (world.isZoomingIn()) {
+            game.setCursor(GameCursor.ZOOM_IN);
+        } else if (world.isZoomingOut()) {
+            game.setCursor(GameCursor.ZOOM_OUT);
+        } else if (worldInputProcessor.isPanning()) {
+            game.setCursor(GameCursor.HAND_OPEN);
+        } else {
+            game.setCursor(GameCursor.POINTER);
+        }
+
         world.render();
         gameLogic.update(deltaTime);
 
