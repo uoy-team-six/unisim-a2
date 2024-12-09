@@ -19,6 +19,7 @@ public class Building {
     public BuildingType type;
     public String name;
     public int price;
+    public boolean onFire;
 
     /**
      * Create a new building to display in the building menu and place in the world.

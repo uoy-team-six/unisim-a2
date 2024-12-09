@@ -1,5 +1,7 @@
 package io.github.unisim.building;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -24,6 +26,8 @@ public class BuildingManager {
     private final Map<BuildingType, Integer> buildingCounts = new HashMap<>();
     private final Matrix4 isoTransform;
     private Building previewBuilding;
+    private float animationTime;
+    private float animationTimeDirection = 1.0f;
 
     public BuildingManager(Matrix4 isoTransform) {
         this.isoTransform = isoTransform;
@@ -94,6 +98,10 @@ public class BuildingManager {
      * @param batch - the SpriteBatch in which to draw
      */
     public void render(SpriteBatch batch) {
+        animationTime += animationTimeDirection * Gdx.graphics.getDeltaTime();
+        if (animationTime <= 0.0f || animationTime >= 1.0f) {
+            animationTimeDirection *= -1.0f;
+        }
         for (Building building : buildings) {
             drawBuilding(building, batch);
         }
@@ -203,6 +211,14 @@ public class BuildingManager {
      * @param batch    - the SpriteBatch to draw into
      */
     public void drawBuilding(Building building, SpriteBatch batch) {
+        if (building.onFire) {
+            var color = new Color(0.85f, 0.55f, 0.2f, 1.0f);
+            color.lerp(0.85f, 0.28f, 0.2f, 1.0f, animationTime);
+            batch.setColor(color);
+        } else {
+            batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+
         Vector3 btmLeftPos = new Vector3(
             (float) building.location.x + (
                 building.flipped ? building.textureOffset.x : building.textureOffset.x
@@ -223,5 +239,9 @@ public class BuildingManager {
             0, 0, building.texture.getWidth(), building.texture.getHeight(),
             building.flipped, false
         );
+    }
+
+    public List<Building> getBuildings() {
+        return buildings;
     }
 }
