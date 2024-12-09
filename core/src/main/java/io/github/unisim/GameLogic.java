@@ -1,5 +1,6 @@
 package io.github.unisim;
 
+import com.badlogic.gdx.math.MathUtils;
 import io.github.unisim.building.BuildingType;
 import io.github.unisim.world.World;
 
@@ -13,9 +14,10 @@ public class GameLogic {
     private GameState gameState;
     private float remainingTime;
     private int money;
-    private float satisfaction;
-
     private int lastUpdateYear;
+
+    private float satisfaction;
+    private float newBuildingSatisfaction;
 
     public GameLogic(World world) {
         this.world = world;
@@ -24,7 +26,6 @@ public class GameLogic {
         gameState = GameState.PAUSED;
         remainingTime = TOTAL_GAME_TIME;
         money = GlobalState.settings.getDifficulty().getStartingMoney();
-        satisfaction = 0.85f;
     }
 
     /**
@@ -36,8 +37,36 @@ public class GameLogic {
         if (money < world.selectedBuilding.price) {
             return false;
         }
-        money -= world.selectedBuilding.price;
-        return world.placeBuilding();
+        final int buildingPrice = world.selectedBuilding.price;
+        if (!world.placeBuilding()) {
+            return false;
+        }
+        money -= buildingPrice;
+
+        // Calculate new building satisfaction.
+        newBuildingSatisfaction += Math.min(0.15f / (float) Math.pow(satisfaction, 0.5f), 1.0f);
+        return true;
+    }
+
+    /**
+     * Continuously updates the student satisfaction.
+     *
+     * @param deltaTime the delta time between the last call of updateSatisfaction
+     */
+    private void updateSatisfaction(float deltaTime) {
+        // Slowly apply new building satisfaction.
+        float newBuildingFactor = newBuildingSatisfaction * 1.5f * deltaTime;
+        satisfaction += newBuildingFactor;
+        newBuildingSatisfaction -= newBuildingFactor;
+        newBuildingSatisfaction = Math.max(newBuildingSatisfaction, 0.0f);
+
+        // Decay satisfaction over time, but lower the factor based on the amount of recreation buildings.
+        float decayRate = 0.025f;
+        decayRate -= world.getBuildingCount(BuildingType.RECREATION) / 250.0f;
+        satisfaction -= Math.max(decayRate, 0.0025f) * deltaTime;
+
+        // Clamp satisfaction between zero and one.
+        satisfaction = MathUtils.clamp(satisfaction, 0.0f, 1.0f);
     }
 
     /**
@@ -65,6 +94,9 @@ public class GameLogic {
             money += studentCount * 100;
         }
         lastUpdateYear = year;
+
+        // Update satisfaction.
+        updateSatisfaction(deltaTime);
     }
 
     /**
