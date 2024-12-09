@@ -13,6 +13,7 @@ public class GameLogic {
     private GameState gameState;
     private float remainingTime;
     private int money;
+    private float satisfaction;
 
     private int lastUpdateYear;
 
@@ -23,6 +24,7 @@ public class GameLogic {
         gameState = GameState.PAUSED;
         remainingTime = TOTAL_GAME_TIME;
         money = GlobalState.settings.getDifficulty().getStartingMoney();
+        satisfaction = 0.85f;
     }
 
     /**
@@ -120,5 +122,9 @@ public class GameLogic {
 
     public int getMoney() {
         return money;
+    }
+
+    public float getSatisfaction() {
+        return satisfaction;
     }
 }

@@ -2,6 +2,7 @@ package io.github.unisim.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -21,7 +22,7 @@ public class InfoBar {
     private Table buildingCountersTable = new Table();
     private Label[] buildingCounterLabels = new Label[4];
     private Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-    private Label scoreLabel = new Label("86%", skin);
+    private Label satisfactionLabel = new Label("86%", skin);
     private Label periodLabel = new Label("", skin);
     private Label moneyLabel = new Label("", skin);
     private Label titleLabel = new Label("UniSim", skin);
@@ -32,7 +33,7 @@ public class InfoBar {
     private Image playImage = new Image(playTexture);
     private final GameLogic gameLogic;
     private Cell<Label> timerLabelCell;
-    private Cell<Label> scoreLabelCell;
+    private Cell<Label> satisfactionLabelCell;
     private Cell<Image> pauseButtonCell;
     private Cell<Table> buildingCountersTableCell;
     private Cell<Label> periodLabelCell;
@@ -67,7 +68,7 @@ public class InfoBar {
         timerLabelCell = infoTable.add(timerLabel).align(Align.center);
         periodLabelCell = infoTable.add(periodLabel).align(Align.center);
         moneyLabelCell = infoTable.add(moneyLabel).align(Align.center);
-        scoreLabelCell = infoTable.add(scoreLabel).align(Align.center);
+        satisfactionLabelCell = infoTable.add(satisfactionLabel).align(Align.center);
         buildingCountersTableCell = infoTable.add(buildingCountersTable).expandX().align(Align.right);
 
         // Pause button
@@ -111,8 +112,9 @@ public class InfoBar {
             periodLabel.setText(String.format("Year %d Semester %d", gameLogic.getYear(), gameLogic.getSemester()));
         }
 
-        // Update money label.
+        // Update money and satisfaction labels.
         moneyLabel.setText(String.format("£%d", gameLogic.getMoney()));
+        satisfactionLabel.setText(String.format("%d%%", MathUtils.ceil(gameLogic.getSatisfaction() * 100.0f)));
 
         buildingCounterLabels[0].setText("Recreation: "
             + Integer.toString(world.getBuildingCount(BuildingType.RECREATION)));
@@ -150,8 +152,8 @@ public class InfoBar {
         periodLabelCell.width(height * 0.24f).height(height * 0.05f);
         moneyLabel.setFontScale(height * 0.002f);
         moneyLabelCell.width(height * 0.16f).height(height * 0.05f);
-        scoreLabel.setFontScale(height * 0.002f);
-        scoreLabelCell.width(height * 0.04f).height(height * 0.05f);
+        satisfactionLabel.setFontScale(height * 0.002f);
+        satisfactionLabelCell.width(height * 0.04f).height(height * 0.05f);
         pauseButtonCell.width(height * 0.03f).height(height * 0.03f)
             .padLeft(height * 0.01f).padRight(height * 0.01f);
 
