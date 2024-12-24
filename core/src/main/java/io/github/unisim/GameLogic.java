@@ -4,17 +4,23 @@ import com.badlogic.gdx.math.MathUtils;
 import io.github.unisim.building.BuildingType;
 import io.github.unisim.world.World;
 
+/**
+ * A class which manages the gameplay logic. This class is a new addition from the inherited codebase.
+ */
 public class GameLogic {
     // Time related constants.
     private static final int TOTAL_GAME_TIME = 5 * 60;
     private static final int ONE_YEAR_TIME = 100;
     private static final int SUMMER_TIME = 20;
 
+    private static final int SLEEPING_BUILDING_STUDENT_COUNT = 20;
+    private static final int STUDENT_TUITION_FEE = 1000;
+
     private final World world;
     private GameState gameState;
     private float remainingTime;
     private int money;
-    private int lastUpdateYear;
+    private int lastTickedYear;
 
     private float satisfaction;
     private float newBuildingSatisfaction;
@@ -87,13 +93,13 @@ public class GameLogic {
         // Tick timer down.
         remainingTime -= deltaTime;
 
-        // Add money if year has ticked. Each student brings in £100.
+        // Add money if year has ticked. Each student brings in their yearly tuition fee.
         final int year = getYear();
-        if (lastUpdateYear != year) {
-            final int studentCount = world.getBuildingCount(BuildingType.SLEEPING) * 20;
-            money += studentCount * 100;
+        if (lastTickedYear != year && !isSummer()) {
+            final int studentCount = world.getBuildingCount(BuildingType.SLEEPING) * SLEEPING_BUILDING_STUDENT_COUNT;
+            money += studentCount * STUDENT_TUITION_FEE;
+            lastTickedYear = year;
         }
-        lastUpdateYear = year;
 
         // Update satisfaction.
         updateSatisfaction(deltaTime);
