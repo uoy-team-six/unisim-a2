@@ -350,4 +350,8 @@ public class World {
     public boolean isZoomingOut() {
         return zoomVelocity > 0.0001f;
     }
+
+    public BuildingManager getBuildingManager() {
+        return buildingManager;
+    }
 }

@@ -1,9 +1,9 @@
 package io.github.unisim;
 
 public enum Difficulty {
-    EASY("Easy", 10000),
-    NORMAL("Normal", 7000),
-    HARD("Hard", 5000);
+    EASY("Easy", 100000),
+    NORMAL("Normal", 75000),
+    HARD("Hard", 50000);
 
     private final String name;
     private final int startingMoney;
