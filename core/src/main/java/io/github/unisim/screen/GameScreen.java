@@ -4,7 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.unisim.GameCursor;
 import io.github.unisim.GameLogic;
@@ -32,6 +35,8 @@ public class GameScreen extends ScreenAdapter {
     private final WorldInputProcessor worldInputProcessor = new WorldInputProcessor(world, gameLogic);
     private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
     private final GameOverMenu gameOverMenu;
+    private final GlyphLayout glyphLayout;
+    private final Label achievementLabel;
 
     /**
      * Constructor for the GameScreen.
@@ -46,6 +51,10 @@ public class GameScreen extends ScreenAdapter {
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(uiInputProcessor);
         inputMultiplexer.addProcessor(worldInputProcessor);
+
+        glyphLayout = new GlyphLayout();
+        achievementLabel = new Label("", GlobalState.defaultSkin);
+        stage.addActor(achievementLabel);
     }
 
     @Override
@@ -59,6 +68,19 @@ public class GameScreen extends ScreenAdapter {
             game.setCursor(GameCursor.HAND_OPEN);
         } else {
             game.setCursor(GameCursor.POINTER);
+        }
+
+        final var displayAchievement = gameLogic.getRecentlyUnlockedAchievement();
+        achievementLabel.setVisible(displayAchievement != null);
+        if (displayAchievement != null) {
+            achievementLabel.setText(String.format("Achievement Unlocked: %s", displayAchievement.getName()));
+
+            achievementLabel.setFontScale(Gdx.graphics.getHeight() * 0.003f);
+            glyphLayout.setText(achievementLabel.getStyle().font, achievementLabel.getText());
+
+            float textWidth = glyphLayout.width * achievementLabel.getFontScaleX() / 2.0f;
+            float textHeight = glyphLayout.height * achievementLabel.getFontScaleY();
+            achievementLabel.setPosition(Gdx.graphics.getWidth() / 2.0f - textWidth, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() * 0.05f + textHeight + 10.0f));
         }
 
         world.render();

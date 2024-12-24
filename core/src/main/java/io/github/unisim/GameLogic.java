@@ -1,6 +1,8 @@
 package io.github.unisim;
 
 import com.badlogic.gdx.math.MathUtils;
+import io.github.unisim.achievement.Achievement;
+import io.github.unisim.achievement.AchievementManager;
 import io.github.unisim.building.BuildingType;
 import io.github.unisim.world.World;
 
@@ -17,8 +19,10 @@ public class GameLogic {
     private static final int STUDENT_TUITION_FEE = 1000;
 
     private final World world;
+    private final AchievementManager achievementManager;
     private GameState gameState;
     private float remainingTime;
+    private int studentCount;
     private int money;
     private int lastTickedYear;
 
@@ -27,6 +31,7 @@ public class GameLogic {
 
     public GameLogic(World world) {
         this.world = world;
+        achievementManager = new AchievementManager(this);
 
         // Start in a paused state.
         gameState = GameState.PAUSED;
@@ -93,16 +98,22 @@ public class GameLogic {
         // Tick timer down.
         remainingTime -= deltaTime;
 
+        // Calculate student count.
+        studentCount = world.getBuildingCount(BuildingType.SLEEPING) * SLEEPING_BUILDING_STUDENT_COUNT;
+
         // Add money if year has ticked. Each student brings in their yearly tuition fee.
         final int year = getYear();
         if (lastTickedYear != year && !isSummer()) {
-            final int studentCount = world.getBuildingCount(BuildingType.SLEEPING) * SLEEPING_BUILDING_STUDENT_COUNT;
-            money += studentCount * STUDENT_TUITION_FEE;
+            final int tuitionIncome = studentCount * STUDENT_TUITION_FEE;
+            money += tuitionIncome;
             lastTickedYear = year;
         }
 
         // Update satisfaction.
         updateSatisfaction(deltaTime);
+
+        // Update achievements.
+        achievementManager.update(deltaTime);
     }
 
     /**
@@ -121,6 +132,10 @@ public class GameLogic {
         if (gameState == GameState.PAUSED) {
             gameState = GameState.PLAYING;
         }
+    }
+
+    public Achievement getRecentlyUnlockedAchievement() {
+        return achievementManager.getRecentlyUnlockedAchievement();
     }
 
     public int getYear() {
@@ -156,6 +171,10 @@ public class GameLogic {
 
     public float getRemainingTime() {
         return remainingTime;
+    }
+
+    public int getStudentCount() {
+        return studentCount;
     }
 
     public int getMoney() {
