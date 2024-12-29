@@ -13,7 +13,6 @@ public class MainUiStage extends Stage {
     private final GameLogic gameLogic;
     private final InfoBar infoBar;
     private final BuildingMenu buildingMenu;
-    private final GameOverMenu gameOverMenu;
 
     private final GlyphLayout glyphLayout;
     private final Label achievementLabel;
@@ -23,7 +22,6 @@ public class MainUiStage extends Stage {
         gameLogic = gameScreen.getGameLogic();
         infoBar = new InfoBar(this, gameLogic, gameScreen.getWorld());
         buildingMenu = new BuildingMenu(this, gameScreen.getWorld(), gameLogic);
-        gameOverMenu = new GameOverMenu(gameScreen.getGame());
 
         glyphLayout = new GlyphLayout();
         achievementLabel = new Label("", GlobalState.defaultSkin);
@@ -54,21 +52,9 @@ public class MainUiStage extends Stage {
         buildingMenu.update();
     }
 
-    @Override
-    public void draw() {
-        super.draw();
-
-        // TODO: Separate into its own stage class.
-        if (gameLogic.isGameOver()) {
-            Gdx.input.setInputProcessor(gameOverMenu.getInputProcessor());
-            gameOverMenu.render(Gdx.graphics.getDeltaTime());
-        }
-    }
-
     public void resize(int width, int height) {
         getViewport().update(width, height, true);
         infoBar.resize(width, height);
         buildingMenu.resize(width, height);
-        gameOverMenu.resize(width, height);
     }
 }

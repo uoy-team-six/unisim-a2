@@ -7,6 +7,7 @@ import io.github.unisim.GameCursor;
 import io.github.unisim.GameLogic;
 import io.github.unisim.GlobalState;
 import io.github.unisim.UniSimGame;
+import io.github.unisim.ui.GameOverUiStage;
 import io.github.unisim.ui.MainUiStage;
 import io.github.unisim.world.UiInputProcessor;
 import io.github.unisim.world.World;
@@ -23,7 +24,9 @@ public class GameScreen extends ScreenAdapter {
     private final WorldInputProcessor worldInputProcessor;
 
     private final MainUiStage mainUiStage;
+    private final GameOverUiStage gameOverUiStage;
     private final InputMultiplexer mainInputMultiplexer;
+    private final InputMultiplexer gameOverInputMultiplexer;
 
     /**
      * Constructor for the GameScreen.
@@ -35,13 +38,17 @@ public class GameScreen extends ScreenAdapter {
         worldInputProcessor = new WorldInputProcessor(world, gameLogic);
 
         mainUiStage = new MainUiStage(this);
+        gameOverUiStage = new GameOverUiStage(game);
 
-        final var uiInputProcessor = new UiInputProcessor(mainUiStage);
         mainInputMultiplexer = new InputMultiplexer();
         mainInputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);
         mainInputMultiplexer.addProcessor(mainUiStage);
-        mainInputMultiplexer.addProcessor(uiInputProcessor);
+        mainInputMultiplexer.addProcessor(new UiInputProcessor(mainUiStage));
         mainInputMultiplexer.addProcessor(worldInputProcessor);
+
+        gameOverInputMultiplexer = new InputMultiplexer();
+        gameOverInputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);
+        gameOverInputMultiplexer.addProcessor(gameOverUiStage);
     }
 
     @Override
@@ -58,11 +65,13 @@ public class GameScreen extends ScreenAdapter {
         }
 
         // Update game logic and active UI stage.
+        final var activeUiStage = gameLogic.isGameOver() ? gameOverUiStage : mainUiStage;
         gameLogic.update(deltaTime);
-        mainUiStage.act(deltaTime);
+        activeUiStage.act(deltaTime);
 
         // Game over camera handling.
         if (gameLogic.isGameOver()) {
+            Gdx.input.setInputProcessor(gameOverInputMultiplexer);
             world.zoom((world.getMaxZoom() - world.getZoom()) * 2f);
             world.pan((150 - world.getCameraPos().x) / 10, -world.getCameraPos().y / 10);
         }
@@ -71,13 +80,14 @@ public class GameScreen extends ScreenAdapter {
         world.render();
 
         // Render the active UI last.
-        mainUiStage.draw();
+        activeUiStage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         world.resize(width, height);
         mainUiStage.resize(width, height);
+        gameOverUiStage.resize(width, height);
     }
 
     @Override

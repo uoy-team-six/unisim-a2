@@ -155,9 +155,7 @@ public class BuildingMenu {
      * Called when the building menu needs to be redrawn with new values in the labels.
      */
     public void update() {
-        if (gameLogic.isGameOver()) {
-            buildingInfoLabel.setText("Game Over!");
-        } else if (world.selectedBuilding == null) {
+        if (world.selectedBuilding == null) {
             buildingInfoLabel.setText("");
         }
     }
