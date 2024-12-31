@@ -134,6 +134,10 @@ public class GameLogic {
         }
     }
 
+    public int getSatisfactionPercentage() {
+        return MathUtils.ceil(satisfaction * 100.0f);
+    }
+
     public Achievement getRecentlyUnlockedAchievement() {
         return achievementManager.getRecentlyUnlockedAchievement();
     }

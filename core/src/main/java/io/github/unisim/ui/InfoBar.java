@@ -114,7 +114,7 @@ public class InfoBar {
 
         // Update money and satisfaction labels.
         moneyLabel.setText(String.format("£%d", gameLogic.getMoney()));
-        satisfactionLabel.setText(String.format("%d%%", MathUtils.ceil(gameLogic.getSatisfaction() * 100.0f)));
+        satisfactionLabel.setText(String.format("%d%%", gameLogic.getSatisfactionPercentage()));
 
         buildingCounterLabels[0].setText("Recreation: "
             + Integer.toString(world.getBuildingCount(BuildingType.RECREATION)));
