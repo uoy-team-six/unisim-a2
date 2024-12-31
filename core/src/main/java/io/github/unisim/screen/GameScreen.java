@@ -38,7 +38,7 @@ public class GameScreen extends ScreenAdapter {
         worldInputProcessor = new WorldInputProcessor(world, gameLogic);
 
         mainUiStage = new MainUiStage(this);
-        gameOverUiStage = new GameOverUiStage(game);
+        gameOverUiStage = new GameOverUiStage(game, gameLogic);
 
         mainInputMultiplexer = new InputMultiplexer();
         mainInputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);

@@ -169,6 +169,8 @@ public class GameLogic {
         return gameState == GameState.GAME_OVER;
     }
 
+    public World getWorld() { return world; }
+
     public GameState getGameState() {
         return gameState;
     }
