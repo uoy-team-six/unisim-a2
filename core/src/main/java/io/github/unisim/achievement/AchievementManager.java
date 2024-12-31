@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class AchievementManager {
     // The time in seconds to show achievements for.
-    private static final float ACHIEVEMENT_DISPLAY_TIME = 5.0f;
+    public static final float ACHIEVEMENT_DISPLAY_TIME = 5.0f;
 
     private final IntSupplier moneySupplier;
     private final Supplier<Float> satisfactionSupplier;
@@ -36,7 +36,7 @@ public class AchievementManager {
         this(gameLogic::getMoney, gameLogic::getSatisfaction, gameLogic::getStudentCount);
     }
 
-    private void unlock(Achievement achievement) {
+    public void unlock(Achievement achievement) {
         if (!unlockedAchievements.add(achievement)) {
             // Achievement was already unlocked.
             return;
@@ -78,6 +78,10 @@ public class AchievementManager {
         if (studentCountSupplier.getAsInt() >= 100) {
             unlock(Achievement.STUDENT_COUNT);
         }
+    }
+
+    public boolean isUnlocked(Achievement achievement) {
+        return unlockedAchievements.contains(achievement);
     }
 
     public Achievement getRecentlyUnlockedAchievement() {
