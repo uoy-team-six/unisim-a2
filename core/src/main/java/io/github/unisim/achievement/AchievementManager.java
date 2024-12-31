@@ -6,12 +6,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 public class AchievementManager {
     // The time in seconds to show achievements for.
     private static final float ACHIEVEMENT_DISPLAY_TIME = 5.0f;
 
-    private final GameLogic gameLogic;
+    private final IntSupplier moneySupplier;
+    private final Supplier<Float> satisfactionSupplier;
+    private final IntSupplier studentCountSupplier;
     private final Set<Achievement> unlockedAchievements;
 
     // Keep track of recently unlocked achievements.
@@ -20,10 +24,16 @@ public class AchievementManager {
 
     private float highStudentSatisfactionTime;
 
-    public AchievementManager(GameLogic gameLogic) {
-        this.gameLogic = gameLogic;
+    public AchievementManager(IntSupplier moneySupplier, Supplier<Float> satisfactionSupplier, IntSupplier studentCountSupplier) {
+        this.moneySupplier = moneySupplier;
+        this.satisfactionSupplier = satisfactionSupplier;
+        this.studentCountSupplier = studentCountSupplier;
         unlockedAchievements = new HashSet<>();
         recentlyUnlockedAchivements = new ArrayList<>();
+    }
+
+    public AchievementManager(GameLogic gameLogic) {
+        this(gameLogic::getMoney, gameLogic::getSatisfaction, gameLogic::getStudentCount);
     }
 
     private void unlock(Achievement achievement) {
@@ -50,12 +60,12 @@ public class AchievementManager {
         }
 
         // Entrepreneur achievement (earned more than 500k).
-        if (gameLogic.getMoney() > 500_000) {
+        if (moneySupplier.getAsInt() > 500_000) {
             unlock(Achievement.ENTREPRENEUR);
         }
 
         // I heart uni achievement (> 75% satisfaction for 2 minutes).
-        if (gameLogic.getSatisfaction() > 0.75f) {
+        if (satisfactionSupplier.get() > 0.75f) {
             highStudentSatisfactionTime += deltaTime;
             if (highStudentSatisfactionTime >= 120.0f) {
                 unlock(Achievement.I_HEART_UNI);
@@ -65,7 +75,7 @@ public class AchievementManager {
         }
 
         // Rising population achievement (>= 100 students).
-        if (gameLogic.getStudentCount() >= 100) {
+        if (studentCountSupplier.getAsInt() >= 100) {
             unlock(Achievement.STUDENT_COUNT);
         }
     }
