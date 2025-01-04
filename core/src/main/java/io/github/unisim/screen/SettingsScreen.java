@@ -84,7 +84,7 @@ public class SettingsScreen extends ScreenAdapter {
         table.row();
         table.add(difficultyLabel).center().padBottom(15.0f);
         table.row();
-        table.add(difficultySelector).center().padBottom(20.0f);
+        table.add(difficultySelector).center().width(250).padBottom(20.0f);
         table.row();
         table.add(volumeLabel).center();
         table.row();
