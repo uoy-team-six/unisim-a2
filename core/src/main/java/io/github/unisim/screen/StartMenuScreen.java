@@ -3,6 +3,7 @@ package io.github.unisim.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -40,9 +41,19 @@ public class StartMenuScreen extends ScreenAdapter {
         playButton = new TextButton("Play", skin);
         playButton.addListener(new ClickListener() {
             @Override
-            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {
                 // Switch to the game screen.
                 game.setScreen(game.createGameScreen());
+            }
+        });
+
+        // Leaderboard button.
+        final var leaderboardButton = new TextButton("Leaderboard", skin);
+        leaderboardButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Switch to the leaderboard screen.
+                game.setScreen(game.getLeaderboardScreen());
             }
         });
 
@@ -50,7 +61,7 @@ public class StartMenuScreen extends ScreenAdapter {
         settingsButton = new TextButton("Settings", skin);
         settingsButton.addListener(new ClickListener() {
             @Override
-            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {
                 // Switch to the settings screen.
                 game.setScreen(game.getSettingsScreen());
             }
@@ -60,8 +71,8 @@ public class StartMenuScreen extends ScreenAdapter {
         table.setFillParent(true);
         table.center().center();
         table.pad(100, 100, 100, 100);
-        table.add(playButton).center().width(250).height(100).padBottom(10);
-        table.row();
+        table.add(playButton).center().width(250).height(100).padBottom(10).row();
+        table.add(leaderboardButton).center().width(250).height(100).padBottom(10).row();
         table.add(settingsButton).center().width(250).height(67);
         stage.addActor(table);
 

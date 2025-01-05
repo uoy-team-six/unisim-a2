@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import io.github.unisim.screen.GameScreen;
+import io.github.unisim.screen.LeaderboardScreen;
 import io.github.unisim.screen.SettingsScreen;
 import io.github.unisim.screen.StartMenuScreen;
 
@@ -17,7 +18,9 @@ import java.util.Map;
  */
 public class UniSimGame extends Game {
     private Map<GameCursor, Cursor> cursorMap;
+    private Leaderboard leaderboard;
     private Screen startMenuScreen;
+    private Screen leaderboardScreen;
     private Screen settingsScreen;
     private Screen gameScreen;
 
@@ -25,6 +28,7 @@ public class UniSimGame extends Game {
     public void create() {
         // Create a map from our cursors to GDX cursors.
         cursorMap = new HashMap<>();
+        leaderboard = new Leaderboard();
 
         // Load all the cursors.
         for (var cursor : GameCursor.values()) {
@@ -34,6 +38,7 @@ public class UniSimGame extends Game {
 
         // Create all of our stateless screens.
         startMenuScreen = new StartMenuScreen(this);
+        leaderboardScreen = new LeaderboardScreen(this);
         settingsScreen = new SettingsScreen(this);
 
         // Start in the start menu screen.
@@ -65,6 +70,7 @@ public class UniSimGame extends Game {
         }
         ((FullscreenInputProcessor) GlobalState.fullscreenInputProcessor).resize(width, height);
         startMenuScreen.resize(width, height);
+        leaderboardScreen.resize(width, height);
         settingsScreen.resize(width, height);
         if (gameScreen != null) {
             gameScreen.resize(width, height);
@@ -84,8 +90,16 @@ public class UniSimGame extends Game {
         Gdx.graphics.setCursor(gdxCursor);
     }
 
+    public Leaderboard getLeaderboard() {
+        return leaderboard;
+    }
+
     public Screen getStartMenuScreen() {
         return startMenuScreen;
+    }
+
+    public Screen getLeaderboardScreen() {
+        return leaderboardScreen;
     }
 
     public Screen getSettingsScreen() {
