@@ -12,6 +12,7 @@ import io.github.unisim.UniSimGame;
 public class GameOverUiStage extends Stage {
     private final GameLogic gameLogic;
     private final Table table;
+    private final Table breakdownTable;
     private final Label gameOverLabel;
     private final Label satisfactionLabel;
     private final Label campusValueLabel;
@@ -47,9 +48,9 @@ public class GameOverUiStage extends Stage {
         campusValueLabel = new Label("", GlobalState.defaultSkin);
         finalScoreLabel = new Label("", GlobalState.defaultSkin);
         table.add(gameOverLabel).top().row();
-        table.add(satisfactionLabel).left().row();
-        table.add(campusValueLabel).left().row();
-        table.add(finalScoreLabel).left().row();
+
+        breakdownTable = new Table();
+        table.add(breakdownTable).expandX().fillX().row();
 
         nameTextField = new TextField("", GlobalState.defaultSkin);
         nameTextField.setMaxLength(20);
@@ -64,33 +65,41 @@ public class GameOverUiStage extends Stage {
     @Override
     public void act(float delta) {
         super.act(delta);
-
-        final var satisfactionScore = MathUtils.round(gameLogic.getSatisfaction() * 20000.0f);
-        final var satisfactionText = String.format("Satisfaction: +%d (%d%%)", satisfactionScore, gameLogic.getSatisfactionPercentage());
-
         int campusValue = 0;
         for (var building : gameLogic.getWorld().getBuildingManager().getBuildings()) {
             campusValue += building.price;
         }
         final var campusValueScore = campusValue / 10;
-        final var campusValueText = String.format("Campus Value: +%d (£%d)", campusValueScore, campusValue);
-
+        final var satisfactionScore = MathUtils.round(gameLogic.getSatisfaction() * 20000.0f);
         finalScore = satisfactionScore + campusValueScore;
-        final var finalScoreText = String.format("Final Score: %d", finalScore);
 
-        satisfactionLabel.setText(satisfactionText);
-        campusValueLabel.setText(campusValueText);
-        finalScoreLabel.setText(finalScoreText);
+        satisfactionLabel.setText(String.format("+%d (%d%%)", satisfactionScore, gameLogic.getSatisfactionPercentage()));
+        campusValueLabel.setText(String.format("+%d (£%d)", campusValueScore, campusValue));
+        finalScoreLabel.setText(finalScore);
     }
 
     public void resize(int width, int height) {
         getViewport().update(width, height, true);
         table.setBounds(0, 0, width, height * 0.1f);
         gameOverLabel.setFontScale(height * 0.006f);
-        satisfactionLabel.setFontScale(height * 0.004f);
-        campusValueLabel.setFontScale(height * 0.004f);
-        finalScoreLabel.setFontScale(height * 0.004f);
-        nameTextFieldCell.width(width * 0.3f).height(height * 0.05f).padTop(height * 0.01f).padBottom(height * 0.01f);
-        buttonCell.width(width * 0.3f).height(height * 0.1f);
+        nameTextFieldCell.width(width * 0.6f).height(height * 0.05f).padTop(height * 0.01f).padBottom(height * 0.01f);
+        buttonCell.width(width * 0.6f).height(height * 0.1f);
+
+        // Clear table and add spacing rows.
+        breakdownTable.clear();
+        breakdownTable.add().width(width * 0.25f);
+        breakdownTable.add().width(width * 0.35f);
+        breakdownTable.row();
+
+        breakdownTable.add(new Label("Satisfaction:", GlobalState.defaultSkin)).left().padLeft(5.0f);
+        breakdownTable.add(satisfactionLabel).right().padRight(5.0f).row();
+        breakdownTable.add(new Label("Campus Value:", GlobalState.defaultSkin)).left().padLeft(5.0f);
+        breakdownTable.add(campusValueLabel).right().padRight(5.0f).row();
+        breakdownTable.add(new Label("Final Score:", GlobalState.defaultSkin)).left().padLeft(5.0f);
+        breakdownTable.add(finalScoreLabel).right().padRight(5.0f).row();
+
+        for (var label : breakdownTable.getChildren()) {
+            ((Label) label).setFontScale(height * 0.004f);
+        }
     }
 }
