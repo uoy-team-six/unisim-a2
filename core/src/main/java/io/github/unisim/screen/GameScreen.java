@@ -72,6 +72,7 @@ public class GameScreen extends ScreenAdapter {
         // Game over camera handling.
         if (gameLogic.isGameOver()) {
             Gdx.input.setInputProcessor(gameOverInputMultiplexer);
+            world.selectedBuilding = null;
             world.zoom((world.getMaxZoom() - world.getZoom()) * 2f);
             world.pan((150 - world.getCameraPos().x) / 10, -world.getCameraPos().y / 10);
         }
