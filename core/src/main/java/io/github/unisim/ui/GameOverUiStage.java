@@ -2,10 +2,7 @@ package io.github.unisim.ui;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.unisim.GameLogic;
@@ -19,7 +16,10 @@ public class GameOverUiStage extends Stage {
     private final Label satisfactionLabel;
     private final Label campusValueLabel;
     private final Label finalScoreLabel;
+    private final TextField nameTextField;
+    private final Cell<TextField> nameTextFieldCell;
     private final Cell<TextButton> buttonCell;
+    private int finalScore;
 
     public GameOverUiStage(UniSimGame game, GameLogic gameLogic) {
         super(new ScreenViewport());
@@ -34,6 +34,11 @@ public class GameOverUiStage extends Stage {
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 // Switch to the start menu screen.
                 game.setScreen(game.getStartMenuScreen());
+
+                // Add leaderboard entry if player has entered a name.
+                if (!nameTextField.getText().isBlank()) {
+                    game.getLeaderboard().addScore(nameTextField.getText(), finalScore);
+                }
             }
         });
 
@@ -45,6 +50,12 @@ public class GameOverUiStage extends Stage {
         table.add(satisfactionLabel).left().row();
         table.add(campusValueLabel).left().row();
         table.add(finalScoreLabel).left().row();
+
+        nameTextField = new TextField("", GlobalState.defaultSkin);
+        nameTextField.setMaxLength(20);
+        nameTextField.setMessageText("Enter name here");
+        nameTextFieldCell = table.add(nameTextField);
+        table.row();
 
         buttonCell = table.add(mainMenuButton).bottom();
         addActor(table);
@@ -64,7 +75,7 @@ public class GameOverUiStage extends Stage {
         final var campusValueScore = campusValue / 10;
         final var campusValueText = String.format("Campus Value: +%d (£%d)", campusValueScore, campusValue);
 
-        final var finalScore = satisfactionScore + campusValueScore;
+        finalScore = satisfactionScore + campusValueScore;
         final var finalScoreText = String.format("Final Score: %d", finalScore);
 
         satisfactionLabel.setText(satisfactionText);
@@ -79,6 +90,7 @@ public class GameOverUiStage extends Stage {
         satisfactionLabel.setFontScale(height * 0.004f);
         campusValueLabel.setFontScale(height * 0.004f);
         finalScoreLabel.setFontScale(height * 0.004f);
+        nameTextFieldCell.width(width * 0.3f).height(height * 0.05f).padTop(height * 0.01f).padBottom(height * 0.01f);
         buttonCell.width(width * 0.3f).height(height * 0.1f);
     }
 }
