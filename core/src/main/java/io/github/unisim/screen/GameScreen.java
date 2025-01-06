@@ -27,6 +27,7 @@ public class GameScreen extends ScreenAdapter {
     private final GameOverUiStage gameOverUiStage;
     private final InputMultiplexer mainInputMultiplexer;
     private final InputMultiplexer gameOverInputMultiplexer;
+    private boolean wasGameOver;
 
     /**
      * Constructor for the GameScreen.
@@ -38,7 +39,7 @@ public class GameScreen extends ScreenAdapter {
         worldInputProcessor = new WorldInputProcessor(world, gameLogic);
 
         mainUiStage = new MainUiStage(this);
-        gameOverUiStage = new GameOverUiStage(game, gameLogic);
+        gameOverUiStage = new GameOverUiStage(game);
 
         mainInputMultiplexer = new InputMultiplexer();
         mainInputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);
@@ -71,7 +72,11 @@ public class GameScreen extends ScreenAdapter {
 
         // Game over camera handling.
         if (gameLogic.isGameOver()) {
-            Gdx.input.setInputProcessor(gameOverInputMultiplexer);
+            if (!wasGameOver) {
+                wasGameOver = true;
+                Gdx.input.setInputProcessor(gameOverInputMultiplexer);
+                gameOverUiStage.onGameOver(gameLogic.calculateScore());
+            }
             world.selectedBuilding = null;
             world.zoom((world.getMaxZoom() - world.getZoom()) * 2f);
             world.pan((150 - world.getCameraPos().x) / 10, -world.getCameraPos().y / 10);

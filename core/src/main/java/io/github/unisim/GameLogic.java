@@ -40,6 +40,25 @@ public class GameLogic {
     }
 
     /**
+     * @return a score object for the current game state
+     */
+    public Score calculateScore() {
+        // Calculate a final score based on the total value of placed buildings, ending satisfaction, and unlocked
+        // achievements. Remaining money is not included in order to incentivise building placement.
+        final int campusValue = world
+            .getBuildingManager()
+            .getBuildings()
+            .stream()
+            .mapToInt(b -> b.price)
+            .sum();
+        return new Score(
+            campusValue,
+            satisfaction,
+            achievementManager.getUnlockedAchievements().stream().toList()
+        );
+    }
+
+    /**
      * Places the currently selected building.
      *
      * @return true if the building was placed; false if not

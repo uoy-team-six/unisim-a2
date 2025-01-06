@@ -2,10 +2,7 @@ package io.github.unisim.achievement;
 
 import io.github.unisim.GameLogic;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
@@ -82,6 +79,13 @@ public class AchievementManager {
 
     public boolean isUnlocked(Achievement achievement) {
         return unlockedAchievements.contains(achievement);
+    }
+
+    /**
+     * @return an unmodifiable set of unlocked achievements
+     */
+    public Set<Achievement> getUnlockedAchievements() {
+        return Collections.unmodifiableSet(unlockedAchievements);
     }
 
     public Achievement getRecentlyUnlockedAchievement() {
