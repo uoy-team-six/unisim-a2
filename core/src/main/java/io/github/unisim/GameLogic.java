@@ -4,6 +4,10 @@ import com.badlogic.gdx.math.MathUtils;
 import io.github.unisim.achievement.Achievement;
 import io.github.unisim.achievement.AchievementManager;
 import io.github.unisim.building.BuildingType;
+import io.github.unisim.event.DiscountEvent;
+import io.github.unisim.event.DonationEvent;
+import io.github.unisim.event.EventManager;
+import io.github.unisim.event.SatisfactionEvent;
 import io.github.unisim.world.World;
 
 /**
@@ -20,18 +24,21 @@ public class GameLogic {
 
     private final World world;
     private final AchievementManager achievementManager;
+    private final EventManager eventManager;
     private GameState gameState;
     private float remainingTime;
     private int studentCount;
     private int money;
     private int lastTickedYear;
 
+    // Satisfaction.
     private float satisfaction;
     private float newBuildingSatisfaction;
 
     public GameLogic(World world) {
         this.world = world;
         achievementManager = new AchievementManager(this);
+        eventManager = new EventManager();
 
         // Start in a paused state.
         gameState = GameState.PAUSED;
@@ -64,10 +71,13 @@ public class GameLogic {
      * @return true if the building was placed; false if not
      */
     public boolean placeBuilding() {
-        if (money < world.selectedBuilding.price) {
+        int buildingPrice = world.selectedBuilding.price;
+        if (eventManager.getCurrentEvent() instanceof DiscountEvent discountEvent) {
+            buildingPrice = discountEvent.applyDiscount(buildingPrice);
+        }
+        if (money < buildingPrice) {
             return false;
         }
-        final int buildingPrice = world.selectedBuilding.price;
         if (!world.placeBuilding()) {
             return false;
         }
@@ -94,6 +104,11 @@ public class GameLogic {
         float decayRate = 0.025f;
         decayRate -= world.getBuildingCount(BuildingType.RECREATION) / 250.0f;
         satisfaction -= Math.max(decayRate, 0.0025f) * deltaTime;
+
+        // Apply any satisfaction changes from the current event.
+        if (eventManager.getCurrentEvent() instanceof SatisfactionEvent satisfactionEvent) {
+            satisfaction += satisfactionEvent.getSatisfaction(deltaTime);
+        }
 
         // Clamp satisfaction between zero and one.
         satisfaction = MathUtils.clamp(satisfaction, 0.0f, 1.0f);
@@ -131,8 +146,14 @@ public class GameLogic {
         // Update satisfaction.
         updateSatisfaction(deltaTime);
 
-        // Update achievements.
+        // Update achievements and events.
         achievementManager.update(deltaTime);
+        eventManager.update(deltaTime);
+
+        // Handle donation event.
+        if (eventManager.getCurrentEvent() instanceof DonationEvent donationEvent) {
+            money += donationEvent.getMoney();
+        }
     }
 
     /**
@@ -194,6 +215,10 @@ public class GameLogic {
 
     public AchievementManager getAchievementManager() {
         return achievementManager;
+    }
+
+    public EventManager getEventManager() {
+        return eventManager;
     }
 
     public GameState getGameState() {

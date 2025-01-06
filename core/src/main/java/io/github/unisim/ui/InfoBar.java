@@ -1,8 +1,8 @@
 package io.github.unisim.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -27,6 +27,8 @@ public class InfoBar {
     private Label moneyLabel = new Label("", skin);
     private Label titleLabel = new Label("UniSim", skin);
     private Label timerLabel;
+    private Label eventLabel;
+    private TextTooltip eventLabelTooltip;
     private Texture pauseTexture = new Texture("ui/pause.png");
     private Texture playTexture = new Texture("ui/play.png");
     private Image pauseImage = new Image(pauseTexture);
@@ -38,6 +40,7 @@ public class InfoBar {
     private Cell<Table> buildingCountersTableCell;
     private Cell<Label> periodLabelCell;
     private Cell<Label> moneyLabelCell;
+    private Cell<Label> eventLabelCell;
     private Cell[] buildingCounterCells;
     private World world;
 
@@ -63,13 +66,19 @@ public class InfoBar {
 
         // Info Table
         timerLabel = new Label("", skin);
+        eventLabel = new Label("", skin);
         infoTable.center().center();
         pauseButtonCell = infoTable.add(playImage).align(Align.center);
         timerLabelCell = infoTable.add(timerLabel).align(Align.center);
         periodLabelCell = infoTable.add(periodLabel).align(Align.center);
         moneyLabelCell = infoTable.add(moneyLabel).align(Align.center);
         satisfactionLabelCell = infoTable.add(satisfactionLabel).align(Align.center);
+        eventLabelCell = infoTable.add(eventLabel).expandX().right();
         buildingCountersTableCell = infoTable.add(buildingCountersTable).expandX().align(Align.right);
+
+        eventLabelTooltip = new TextTooltip("", skin);
+        eventLabelTooltip.setInstant(true);
+        eventLabel.addListener(eventLabelTooltip);
 
         // Pause button
         pauseImage.addListener(new ClickListener() {
@@ -125,6 +134,27 @@ public class InfoBar {
         buildingCounterLabels[3].setText("Sleeping: "
             + Integer.toString(world.getBuildingCount(BuildingType.SLEEPING)));
         pauseButtonCell.setActor(gameLogic.isPaused() ? playImage : pauseImage);
+
+        final var tooltipLabel = eventLabelTooltip.getContainer().getActor();
+        if (gameLogic.getEventManager().isEventActive()) {
+            final var currentEvent = gameLogic.getEventManager().getCurrentEvent();
+            eventLabel.setText(String.format("Event: %s", currentEvent.getName()));
+            tooltipLabel.setText(currentEvent.getDescription());
+            switch (currentEvent.getType()) {
+                case NEGATIVE:
+                    eventLabel.setColor(Color.RED);
+                    break;
+                case POSITIVE:
+                    eventLabel.setColor(Color.GREEN);
+                    break;
+                default:
+                    eventLabel.setColor(Color.WHITE);
+                    break;
+            }
+        } else {
+            eventLabel.setText("");
+            tooltipLabel.setText("");
+        }
     }
 
     /**
@@ -158,5 +188,7 @@ public class InfoBar {
             .padLeft(height * 0.01f).padRight(height * 0.01f);
 
         titleLabel.setFontScale(height * 0.003f);
+        eventLabel.setFontScale(height * 0.002f);
+        eventLabelCell.padLeft(width * 0.15f);
     }
 }
