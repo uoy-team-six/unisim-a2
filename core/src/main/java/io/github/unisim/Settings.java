@@ -6,6 +6,7 @@ package io.github.unisim;
 public class Settings {
     private Difficulty difficulty = Difficulty.NORMAL;
     private float volume = 1.0f;
+    private boolean debugKeysEnabled;
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
@@ -15,11 +16,19 @@ public class Settings {
         this.volume = volume;
     }
 
+    public void setDebugKeysEnabled(boolean debugKeysEnabled) {
+        this.debugKeysEnabled = debugKeysEnabled;
+    }
+
     public Difficulty getDifficulty() {
         return difficulty;
     }
 
     public float getVolume() {
         return volume;
+    }
+
+    public boolean areDebugKeysEnabled() {
+        return debugKeysEnabled;
     }
 }

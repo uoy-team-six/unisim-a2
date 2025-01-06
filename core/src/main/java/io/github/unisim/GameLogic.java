@@ -188,7 +188,13 @@ public class GameLogic {
         return gameState == GameState.GAME_OVER;
     }
 
-    public World getWorld() { return world; }
+    public World getWorld() {
+        return world;
+    }
+
+    public AchievementManager getAchievementManager() {
+        return achievementManager;
+    }
 
     public GameState getGameState() {
         return gameState;

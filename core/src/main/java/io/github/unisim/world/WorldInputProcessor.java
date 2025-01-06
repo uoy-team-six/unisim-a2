@@ -4,6 +4,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import io.github.unisim.GameLogic;
 import io.github.unisim.GlobalState;
+import io.github.unisim.achievement.Achievement;
+
+import java.util.Arrays;
 
 /**
  * Handles input events related to the world, after they have passed through the UiInputProcessor.
@@ -40,6 +43,11 @@ public class WorldInputProcessor extends InputAdapter {
                     world.selectedBuilding.size.x = world.selectedBuilding.size.y;
                     world.selectedBuilding.size.y = temp;
                     world.selectedBuildingUpdated = true;
+                }
+                break;
+            case Keys.F2:
+                if (GlobalState.settings.areDebugKeysEnabled()) {
+                    Arrays.stream(Achievement.values()).forEach(gameLogic.getAchievementManager()::unlock);
                 }
                 break;
             default:

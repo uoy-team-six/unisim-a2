@@ -64,6 +64,13 @@ public class SettingsScreen extends ScreenAdapter {
             return false;
         });
 
+        var debugCheckboxLabel = new Label("Enable debug keys: ", skin);
+        var debugCheckbox = new CheckBox("", skin);
+        debugCheckbox.addListener(event -> {
+            GlobalState.settings.setDebugKeysEnabled(debugCheckbox.isChecked());
+            return false;
+        });
+
         // Back button
         backButton = new TextButton("Back", skin);
         backButton.setPosition(150, 80);
@@ -89,6 +96,10 @@ public class SettingsScreen extends ScreenAdapter {
         table.add(volumeLabel).center();
         table.row();
         table.add(volumeSlider).center().width(250).height(67);
+        table.row();
+        table.add(debugCheckboxLabel).center().padBottom(5.0f);
+        table.row();
+        table.add(debugCheckbox).center();
         stage.addActor(table);
 
         inputMultiplexer.addProcessor(GlobalState.fullscreenInputProcessor);

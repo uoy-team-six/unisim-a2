@@ -1,6 +1,7 @@
 package io.github.unisim.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import io.github.unisim.GameCursor;
@@ -63,6 +64,10 @@ public class GameScreen extends ScreenAdapter {
             game.setCursor(GameCursor.HAND_OPEN);
         } else {
             game.setCursor(GameCursor.POINTER);
+        }
+
+        if (GlobalState.settings.areDebugKeysEnabled() && Gdx.input.isKeyPressed(Input.Keys.F1)) {
+            deltaTime *= 100.0f;
         }
 
         // Update game logic and active UI stage.
