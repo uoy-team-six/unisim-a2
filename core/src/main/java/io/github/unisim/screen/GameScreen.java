@@ -68,7 +68,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if (GlobalState.settings.areDebugKeysEnabled() && Gdx.input.isKeyPressed(Input.Keys.F1)) {
-            deltaTime *= 100.0f;
+            deltaTime *= 10.0f;
         }
 
         // Update game logic and active UI stage.
