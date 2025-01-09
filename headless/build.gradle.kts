@@ -62,11 +62,3 @@ checkstyle {
 tasks.withType<Checkstyle> {
     dependsOn("downloadGoogleStyle")
 }
-
-sourceSets {
-    test {
-        java {
-            setSrcDirs(listOf("headless/src/test/java"))
-        }
-    }
-}
