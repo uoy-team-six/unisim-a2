@@ -1,9 +1,7 @@
 import java.net.URL
-import java.io.InputStream
-import java.io.OutputStream
 
 plugins {
-    `java`
+    java
     checkstyle
     jacoco
 }
@@ -16,18 +14,32 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
-    checkstyle("com.puppycrawl.tools:checkstyle:10.12.1") 
+    checkstyle("com.puppycrawl.tools:checkstyle:10.12.1")
 }
 
 tasks.test {
     useJUnitPlatform()
-}
-
-tasks.test {
     finalizedBy(tasks.jacocoTestReport)
 }
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+    val classDirs = files(
+        "${buildDir}/classes/java/main",
+        "${buildDir}/classes/java/test"
+    )
+    val sourceDirs = files(
+        "${projectDir}/src/main/java",
+        "${projectDir}/src/test/java"
+    )
+    classDirectories.setFrom(classDirs)
+    sourceDirectories.setFrom(sourceDirs)
+    executionData.setFrom(fileTree(buildDir).include("**/jacoco/test.exec"))
 }
 
 tasks.register("downloadGoogleStyle") {
@@ -43,7 +55,7 @@ tasks.register("downloadGoogleStyle") {
 }
 
 checkstyle {
-    toolVersion = "10.12.1" 
+    toolVersion = "10.12.1"
     configFile = file("$buildDir/checkstyle/google_checks.xml")
 }
 
