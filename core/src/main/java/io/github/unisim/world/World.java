@@ -28,6 +28,7 @@ public class World {
     private final Viewport viewport = new ScreenViewport(camera);
     private TiledMap map;
     private IsometricTiledMapRenderer renderer;
+    private PeopleManager peopleManager;
     private final Vector2 camPosition = new Vector2(150f, 0f);
     private final Vector2 panVelocity = new Vector2(0f, 0f);
     private float zoomVelocity = 0f;
@@ -67,6 +68,7 @@ public class World {
         errTileHighlight = new Texture(Gdx.files.internal("map/errTileHighlight.png"));
         tileHighlightBatch = new SpriteBatch();
         buildingBatch = new SpriteBatch();
+        peopleManager = new PeopleManager(buildingManager, isoTransform);
     }
 
     /**
@@ -82,7 +84,7 @@ public class World {
     /**
      * Steps the world forward by delta time and renders the world.
      */
-    public void render() {
+    public void render(float deltaTime) {
         viewport.apply();
 
         ScreenUtils.clear(0.59f, 0.72f, 1f, 1f);
@@ -130,6 +132,7 @@ public class World {
         // render buildings after all map related rendering
         buildingBatch.setProjectionMatrix(camera.combined);
         buildingBatch.begin();
+        peopleManager.render(deltaTime, buildingBatch);
         buildingManager.render(buildingBatch);
         buildingBatch.end();
     }

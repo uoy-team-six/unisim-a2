@@ -244,4 +244,8 @@ public class BuildingManager {
     public List<Building> getBuildings() {
         return buildings;
     }
+
+    public Building getPreviewBuilding() {
+        return previewBuilding;
+    }
 }

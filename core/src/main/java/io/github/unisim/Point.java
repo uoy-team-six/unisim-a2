@@ -1,5 +1,7 @@
 package io.github.unisim;
 
+import com.badlogic.gdx.math.Vector2;
+
 /**
  * Represents a point in 2D space with integer co-ordinates (x, y).
  */
@@ -40,5 +42,9 @@ public class Point {
 
     public Point getNewPoint() {
         return new Point(x, y);
+    }
+
+    public Vector2 toVector() {
+        return new Vector2(x, y);
     }
 }

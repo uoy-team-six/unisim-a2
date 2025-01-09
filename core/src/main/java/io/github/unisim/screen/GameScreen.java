@@ -89,7 +89,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         // Render the world.
-        world.render();
+        world.render(gameLogic.isPaused() ? 0.0f : deltaTime);
 
         // Render the active UI last.
         activeUiStage.draw();
