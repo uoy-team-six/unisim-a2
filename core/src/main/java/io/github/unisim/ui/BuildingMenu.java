@@ -103,7 +103,9 @@ public class BuildingMenu {
                         world.selectedBuilding = null;
                     } else {
                         world.selectedBuilding = buildings.get(buildingIndex);
-                        buildingInfoLabel.setText(world.selectedBuilding.name + " - Press 'R' to rotate");
+                        buildingInfoLabel.setText(String.format("%s (£%d) - Press 'R' to rotate",
+                            world.selectedBuilding.name,
+                            world.selectedBuilding.price));
                         if (world.selectedBuilding.flipped) {
                             world.selectedBuilding.flipped = false;
                             int temp = world.selectedBuilding.size.x;
