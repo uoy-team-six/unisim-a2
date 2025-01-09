@@ -48,6 +48,15 @@ public class StartMenuScreen extends ScreenAdapter {
             }
         });
 
+        final var helpButton = new TextButton("Help", GlobalState.defaultSkin);
+        helpButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Switch to the help screen.
+                game.setScreen(game.getHelpScreen());
+            }
+        });
+
         final var settingsButton = new TextButton("Settings", GlobalState.defaultSkin);
         settingsButton.addListener(new ClickListener() {
             @Override
@@ -71,6 +80,7 @@ public class StartMenuScreen extends ScreenAdapter {
         table.pad(100);
         table.add(playButton).center().width(250).height(100).padBottom(10).row();
         table.add(leaderboardButton).center().width(250).height(67).padBottom(10).row();
+        table.add(helpButton).center().width(250).height(67).padBottom(10).row();
         table.add(settingsButton).center().width(250).height(67).padBottom(10).row();
         table.add(quitButton).center().width(250).height(67);
         stage.addActor(table);

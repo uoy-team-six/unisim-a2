@@ -5,10 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
-import io.github.unisim.screen.GameScreen;
-import io.github.unisim.screen.LeaderboardScreen;
-import io.github.unisim.screen.SettingsScreen;
-import io.github.unisim.screen.StartMenuScreen;
+import io.github.unisim.screen.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +18,7 @@ public class UniSimGame extends Game {
     private Leaderboard leaderboard;
     private Screen startMenuScreen;
     private Screen leaderboardScreen;
+    private Screen helpScreen;
     private Screen settingsScreen;
     private Screen gameScreen;
 
@@ -39,6 +37,7 @@ public class UniSimGame extends Game {
         // Create all of our stateless screens.
         startMenuScreen = new StartMenuScreen(this);
         leaderboardScreen = new LeaderboardScreen(this);
+        helpScreen = new HelpScreen(this);
         settingsScreen = new SettingsScreen(this);
 
         // Start in the start menu screen.
@@ -60,6 +59,8 @@ public class UniSimGame extends Game {
             gameScreen.dispose();
         }
         settingsScreen.dispose();
+        helpScreen.dispose();
+        leaderboardScreen.dispose();
         startMenuScreen.dispose();
     }
 
@@ -71,6 +72,7 @@ public class UniSimGame extends Game {
         ((FullscreenInputProcessor) GlobalState.fullscreenInputProcessor).resize(width, height);
         startMenuScreen.resize(width, height);
         leaderboardScreen.resize(width, height);
+        helpScreen.resize(width, height);
         settingsScreen.resize(width, height);
         if (gameScreen != null) {
             gameScreen.resize(width, height);
@@ -100,6 +102,10 @@ public class UniSimGame extends Game {
 
     public Screen getLeaderboardScreen() {
         return leaderboardScreen;
+    }
+
+    public Screen getHelpScreen() {
+        return helpScreen;
     }
 
     public Screen getSettingsScreen() {
