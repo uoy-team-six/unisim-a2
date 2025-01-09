@@ -26,8 +26,8 @@ import io.github.unisim.building.BuildingType;
 public class World {
     private final OrthographicCamera camera = new OrthographicCamera();
     private final Viewport viewport = new ScreenViewport(camera);
-    private final TiledMap map = new TmxMapLoader().load("map/medium_map.tmx");
-    private final IsometricTiledMapRenderer renderer = new IsometricTiledMapRenderer(map, 1.0f / 16.0f);
+    private TiledMap map;
+    private IsometricTiledMapRenderer renderer;
     private final Vector2 camPosition = new Vector2(150f, 0f);
     private final Vector2 panVelocity = new Vector2(0f, 0f);
     private float zoomVelocity = 0f;
@@ -36,10 +36,10 @@ public class World {
     private float zoomDt = 0f;
     private float minZoom;
     private float maxZoom;
-    private final SpriteBatch tileHighlightBatch = new SpriteBatch();
-    private final SpriteBatch buildingBatch = new SpriteBatch();
-    private final Texture tileHighlight = new Texture(Gdx.files.internal("map/tileHighlight.png"));
-    private final Texture errTileHighlight = new Texture(Gdx.files.internal("map/errTileHighlight.png"));
+    private SpriteBatch tileHighlightBatch;
+    private SpriteBatch buildingBatch;
+    private Texture tileHighlight;
+    private Texture errTileHighlight;
     private Matrix4 isoTransform;
     private Matrix4 invIsoTransform;
     private final BuildingManager buildingManager;
@@ -60,12 +60,23 @@ public class World {
         selectedBuilding = null;
     }
 
+    public void loadMap(String name) {
+        map = new TmxMapLoader().load(name);
+        renderer = new IsometricTiledMapRenderer(map, 1.0f / 16.0f);
+        tileHighlight = new Texture(Gdx.files.internal("map/tileHighlight.png"));
+        errTileHighlight = new Texture(Gdx.files.internal("map/errTileHighlight.png"));
+        tileHighlightBatch = new SpriteBatch();
+        buildingBatch = new SpriteBatch();
+    }
+
     /**
      * Releases all resources of this object.
      * Should be called when the World object is no longer needed
      */
     public void dispose() {
-        map.dispose();
+        if (map != null) {
+            map.dispose();
+        }
     }
 
     /**

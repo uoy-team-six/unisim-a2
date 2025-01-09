@@ -36,7 +36,8 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(UniSimGame game) {
         this.game = game;
         world = new World();
-        gameLogic = new GameLogic(world);
+        world.loadMap("map/medium_map.tmx");
+        gameLogic = new GameLogic(world, GlobalState.settings.getDifficulty());
         worldInputProcessor = new WorldInputProcessor(world, gameLogic);
 
         mainUiStage = new MainUiStage(this);

@@ -35,7 +35,7 @@ public class GameLogic {
     private float satisfaction;
     private float newBuildingSatisfaction;
 
-    public GameLogic(World world) {
+    public GameLogic(World world, Difficulty difficulty) {
         this.world = world;
         achievementManager = new AchievementManager(this);
         eventManager = new EventManager();
@@ -43,7 +43,7 @@ public class GameLogic {
         // Start in a paused state.
         gameState = GameState.PAUSED;
         remainingTime = TOTAL_GAME_TIME;
-        money = GlobalState.settings.getDifficulty().getStartingMoney();
+        money = difficulty.getStartingMoney();
     }
 
     /**
@@ -209,20 +209,12 @@ public class GameLogic {
         return gameState == GameState.GAME_OVER;
     }
 
-    public World getWorld() {
-        return world;
-    }
-
     public AchievementManager getAchievementManager() {
         return achievementManager;
     }
 
     public EventManager getEventManager() {
         return eventManager;
-    }
-
-    public GameState getGameState() {
-        return gameState;
     }
 
     public float getRemainingTime() {
