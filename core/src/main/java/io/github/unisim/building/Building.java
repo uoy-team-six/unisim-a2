@@ -20,6 +20,7 @@ public class Building {
     public String name;
     public int price;
     public boolean onFire;
+    public int passiveIncome;
 
     /**
      * Create a new building to display in the building menu and place in the world.
@@ -33,9 +34,10 @@ public class Building {
      * @param type          - The category of building, must be a BuildingType
      * @param name          - The name of the building to display when selected
      * @param price         - The price of the building
+     * @param passiveIncome - The amount of passive income the building should generate
      */
     public Building(Texture texture, float textureScale, Vector2 textureOffset, Point location,
-                    Point size, Boolean flipped, BuildingType type, String name, int price) {
+                    Point size, Boolean flipped, BuildingType type, String name, int price, int passiveIncome) {
         this.texture = texture;
         this.location = location;
         this.size = size;
@@ -45,5 +47,6 @@ public class Building {
         this.type = type;
         this.name = name;
         this.price = price;
+        this.passiveIncome = passiveIncome;
     }
 }

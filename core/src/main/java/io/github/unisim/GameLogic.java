@@ -141,6 +141,11 @@ public class GameLogic {
             final int tuitionIncome = studentCount * STUDENT_TUITION_FEE;
             money += tuitionIncome;
             lastTickedYear = year;
+
+            // Add money from building passive income.
+            for (var building : world.getBuildingManager().getBuildings()) {
+                money += building.passiveIncome;
+            }
         }
 
         // Update satisfaction.

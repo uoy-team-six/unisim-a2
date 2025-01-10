@@ -339,7 +339,8 @@ public class World {
             new Building(
                 selectedBuilding.texture, selectedBuilding.textureScale, selectedBuilding.textureOffset,
                 selectedBuilding.location.getNewPoint(), selectedBuilding.size.getNewPoint(),
-                selectedBuilding.flipped, selectedBuilding.type, selectedBuilding.name, selectedBuilding.price
+                selectedBuilding.flipped, selectedBuilding.type, selectedBuilding.name, selectedBuilding.price,
+                selectedBuilding.passiveIncome
             )
         );
         selectedBuilding = null;
