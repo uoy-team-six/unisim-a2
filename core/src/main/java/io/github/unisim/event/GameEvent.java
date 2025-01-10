@@ -7,10 +7,18 @@ public abstract class GameEvent {
         this.durationTimer = durationTimer;
     }
 
+    /**
+     * Updates the event. Decreases the duration timer.
+     *
+     * @param deltaTime the delta time between the last call of update
+     */
     public void update(float deltaTime) {
         durationTimer -= deltaTime;
     }
 
+    /**
+     * @return whether the event has run its duration
+     */
     public boolean isFinished() {
         return durationTimer <= 0.0f;
     }

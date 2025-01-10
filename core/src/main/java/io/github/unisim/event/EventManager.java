@@ -14,6 +14,11 @@ public class EventManager {
         enabledEvents = List.of(DonationEvent.class, DiscountEvent.class, RainEvent.class, RosesEvent.class);
     }
 
+    /**
+     * Updates the current active event if there is one, otherwise may randomly start a new event.
+     *
+     * @param deltaTime the delta time between the last call of update
+     */
     public void update(float deltaTime) {
         if (currentEvent != null) {
             currentEvent.update(deltaTime);
@@ -41,10 +46,16 @@ public class EventManager {
         }
     }
 
+    /**
+     * @return whether there's an event currently active
+     */
     public boolean isEventActive() {
         return currentEvent != null;
     }
 
+    /**
+     * @return the active event if any; null otherwise
+     */
     public GameEvent getCurrentEvent() {
         return currentEvent;
     }

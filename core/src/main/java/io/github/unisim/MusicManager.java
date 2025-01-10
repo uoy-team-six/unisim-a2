@@ -23,6 +23,9 @@ public class MusicManager {
         music.play();
     }
 
+    /**
+     * Starts a new music track if needed.
+     */
     public void update() {
         if (music == null || !music.isPlaying()) {
             startNewMusic();

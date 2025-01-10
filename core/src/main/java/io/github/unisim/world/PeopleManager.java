@@ -49,6 +49,12 @@ public class PeopleManager {
         return building;
     }
 
+    /**
+     * Renders people on the world.
+     *
+     * @param deltaTime the delta time between the last call of render
+     * @param batch     a suitable sprite batch to render with
+     */
     public void render(float deltaTime, SpriteBatch batch) {
         spawnTimer += deltaTime;
         if (spawnTimer >= calculateSpawnRate() && people.size() < calculateMaxPeopleCount()) {

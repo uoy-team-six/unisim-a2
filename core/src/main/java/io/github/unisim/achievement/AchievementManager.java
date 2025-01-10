@@ -16,7 +16,7 @@ public class AchievementManager {
     private final Set<Achievement> unlockedAchievements;
 
     // Keep track of recently unlocked achievements.
-    private final List<Achievement> recentlyUnlockedAchivements;
+    private final List<Achievement> recentlyUnlockedAchievements;
     private float recentlyUnlockedTimer;
 
     private float highStudentSatisfactionTime;
@@ -26,32 +26,42 @@ public class AchievementManager {
         this.satisfactionSupplier = satisfactionSupplier;
         this.studentCountSupplier = studentCountSupplier;
         unlockedAchievements = new HashSet<>();
-        recentlyUnlockedAchivements = new ArrayList<>();
+        recentlyUnlockedAchievements = new ArrayList<>();
     }
 
     public AchievementManager(GameLogic gameLogic) {
         this(gameLogic::getMoney, gameLogic::getSatisfaction, gameLogic::getStudentCount);
     }
 
+    /**
+     * Unlock the given achievement.
+     *
+     * @param achievement the achievement to unlock
+     */
     public void unlock(Achievement achievement) {
         if (!unlockedAchievements.add(achievement)) {
             // Achievement was already unlocked.
             return;
         }
 
-        // New achivement unlocked!
-        recentlyUnlockedAchivements.add(achievement);
+        // New achievement unlocked!
+        recentlyUnlockedAchievements.add(achievement);
         if (recentlyUnlockedTimer <= 0.0f) {
             recentlyUnlockedTimer = ACHIEVEMENT_DISPLAY_TIME;
         }
     }
 
+    /**
+     * Checks the current game state and unlocks any achievements that have the requirements met.
+     *
+     * @param deltaTime the delta time between the last call of update
+     */
     public void update(float deltaTime) {
         // Update recently unlocked achievement logic.
         recentlyUnlockedTimer -= deltaTime;
-        if (recentlyUnlockedTimer <= 0.0f && !recentlyUnlockedAchivements.isEmpty()) {
-            recentlyUnlockedAchivements.remove(0);
-            if (!recentlyUnlockedAchivements.isEmpty()) {
+        if (recentlyUnlockedTimer <= 0.0f && !recentlyUnlockedAchievements.isEmpty()) {
+            recentlyUnlockedAchievements.remove(0);
+            if (!recentlyUnlockedAchievements.isEmpty()) {
                 recentlyUnlockedTimer = ACHIEVEMENT_DISPLAY_TIME;
             }
         }
@@ -77,6 +87,9 @@ public class AchievementManager {
         }
     }
 
+    /**
+     * @return whether the given achievement is unlocked
+     */
     public boolean isUnlocked(Achievement achievement) {
         return unlockedAchievements.contains(achievement);
     }
@@ -88,10 +101,13 @@ public class AchievementManager {
         return Collections.unmodifiableSet(unlockedAchievements);
     }
 
+    /**
+     * @return the recently unlocked achievement if any; null otherwise
+     */
     public Achievement getRecentlyUnlockedAchievement() {
-        if (recentlyUnlockedAchivements.isEmpty()) {
+        if (recentlyUnlockedAchievements.isEmpty()) {
             return null;
         }
-        return recentlyUnlockedAchivements.get(0);
+        return recentlyUnlockedAchievements.get(0);
     }
 }

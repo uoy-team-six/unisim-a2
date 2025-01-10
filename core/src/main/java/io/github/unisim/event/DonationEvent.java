@@ -9,6 +9,11 @@ public class DonationEvent extends GameEvent {
         super(MathUtils.random(10.0f, 20.0f));
     }
 
+    /**
+     * Get money accumulated between the last call of getMoney.
+     *
+     * @return the accumulated money
+     */
     public int getMoney() {
         int wholeMoney = (int) accumulatedMoney;
         accumulatedMoney -= wholeMoney;

@@ -5,6 +5,12 @@ public class DiscountEvent extends GameEvent {
         super(20.0f);
     }
 
+    /**
+     * Applies the discount to the given price.
+     *
+     * @param price the original price
+     * @return the price with the discount applied
+     */
     public int applyDiscount(int price) {
         // Apply 20% discount.
         return price / 10 * 8;
