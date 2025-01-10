@@ -90,6 +90,17 @@ public class BuildingMenu {
             "Student Accomodation",
             12500
         ));
+        buildings.add(new Building(
+            new Texture(Gdx.files.internal("buildings/club.png")),
+            0.005f,
+            new Vector2(0.5f, 1.25f),
+            new Point(),
+            new Point(10, 10),
+            false,
+            BuildingType.RECREATION,
+            "Club",
+            15000
+        ));
 
         table = new Table();
         // Add buldings to the table
