@@ -2,6 +2,14 @@ plugins {
     id("com.gradleup.shadow") version "8.3.3"
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDir("${rootProject.projectDir}/assets")
+        }
+    }
+}
+
 dependencies {
     val gdxVersion: String by project
     implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion")
