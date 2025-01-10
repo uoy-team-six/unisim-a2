@@ -3,7 +3,6 @@ package io.github.unisim;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A class which represents the game leaderboard.
@@ -13,9 +12,6 @@ public class Leaderboard {
 
     public Leaderboard() {
         scoreMap = new HashMap<>();
-        for (var name : List.of("Daniel", "Ellen", "Hussain", "Jason", "Minnie", "Owen")) {
-            scoreMap.put(name, ThreadLocalRandom.current().nextInt(30000, 60000));
-        }
     }
 
     /**

@@ -68,13 +68,24 @@ public class LeaderboardScreen extends ScreenAdapter {
     public void show() {
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        // Clear table and add spacing rows.
+        // Clear table.
         scoreTable.clear();
-        scoreTable.add().width(225);
-        scoreTable.add().width(125);
-        scoreTable.row();
 
-        for (var name : game.getLeaderboard().getSortedNames()) {
+        // Display empty message if needed.
+        if (game.getLeaderboard().getSortedNames().isEmpty()) {
+            var label = new Label("There are no entries yet", GlobalState.defaultSkin);
+            label.setFontScale(2.0f);
+            scoreTable.add(label).center();
+        } else {
+            // Add spacing rows.
+            scoreTable.add().width(225);
+            scoreTable.add().width(125);
+            scoreTable.row();
+        }
+
+        var sortedNames = game.getLeaderboard().getSortedNames();
+        for (int i = 0; i < sortedNames.size() && i < 5; i++) {
+            var name = sortedNames.get(i);
             int score = game.getLeaderboard().getScore(name);
             var nameLabel = new Label(name, GlobalState.defaultSkin);
             var scoreLabel = new Label(String.valueOf(score), GlobalState.defaultSkin);
