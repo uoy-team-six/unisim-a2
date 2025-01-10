@@ -23,6 +23,7 @@ public class InfoBar {
     private Label[] buildingCounterLabels = new Label[4];
     private Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
     private Label satisfactionLabel = new Label("86%", skin);
+    private TextTooltip satisfactionLabelTooltip;
     private Label periodLabel = new Label("", skin);
     private Label moneyLabel = new Label("", skin);
     private Label titleLabel = new Label("UniSim", skin);
@@ -79,6 +80,10 @@ public class InfoBar {
         eventLabelTooltip = new TextTooltip("", skin);
         eventLabelTooltip.setInstant(true);
         eventLabel.addListener(eventLabelTooltip);
+
+        satisfactionLabelTooltip = new TextTooltip("", skin);
+        satisfactionLabelTooltip.setInstant(true);
+        satisfactionLabel.addListener(satisfactionLabelTooltip);
 
         // Pause button
         pauseImage.addListener(new ClickListener() {
