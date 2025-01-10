@@ -75,6 +75,10 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
+        if (GlobalState.settings.areDebugKeysEnabled() && Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
+            gameLogic.getEventManager().startNewEvent();
+        }
+
         // Update game logic and active UI stage.
         final var activeUiStage = gameLogic.isGameOver() ? gameOverUiStage : mainUiStage;
         gameLogic.update(deltaTime);

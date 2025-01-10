@@ -15,6 +15,18 @@ public class EventManager {
     }
 
     /**
+     * Forcibly starts a new event.
+     */
+    public void startNewEvent() {
+        try {
+            var eventConstructor = enabledEvents.get(MathUtils.random(enabledEvents.size() - 1)).getConstructor();
+            currentEvent = eventConstructor.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Updates the current active event if there is one, otherwise may randomly start a new event.
      *
      * @param deltaTime the delta time between the last call of update
@@ -36,12 +48,7 @@ public class EventManager {
             checkEventTimer = 0.0f;
             if (Math.min(MathUtils.random() + 0.1f, 1.0f) < nextEventProbability) {
                 nextEventProbability = 0.0f;
-                try {
-                    var eventConstructor = enabledEvents.get(MathUtils.random(enabledEvents.size() - 1)).getConstructor();
-                    currentEvent = eventConstructor.newInstance();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                startNewEvent();
             }
         }
     }
