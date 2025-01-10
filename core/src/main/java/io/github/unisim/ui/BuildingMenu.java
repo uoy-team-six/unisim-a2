@@ -48,10 +48,10 @@ public class BuildingMenu {
         // Set building images and sizes
         buildings.add(new Building(
             new Texture(Gdx.files.internal("buildings/restaurant.png")),
-            0.01f,
-            new Vector2(0.35f, -0.9f),
+            0.005f,
+            new Vector2(1.1f, -0.2f),
             new Point(),
-            new Point(3, 3),
+            new Point(6, 6),
             false,
             BuildingType.EATING,
             "Canteen",
