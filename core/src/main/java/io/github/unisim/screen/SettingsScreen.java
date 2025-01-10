@@ -38,7 +38,7 @@ public class SettingsScreen extends ScreenAdapter {
         table = new Table();
 
         // Volume label
-        volumeLabel = new Label("Volume: ", skin);
+        volumeLabel = new Label("Music Volume: ", skin);
         volumeLabel.setColor(new Color(0.9f, 0.9f, 0.9f, 1.0f));
 
         // Volume slider

@@ -5,7 +5,7 @@ package io.github.unisim;
  */
 public class Settings {
     private Difficulty difficulty = Difficulty.NORMAL;
-    private float volume = 1.0f;
+    private float volume = 0.0f;
     private boolean debugKeysEnabled;
 
     public void setDifficulty(Difficulty difficulty) {

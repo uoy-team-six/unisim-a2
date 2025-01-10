@@ -16,6 +16,7 @@ import java.util.Map;
 public class UniSimGame extends Game {
     private Map<GameCursor, Cursor> cursorMap;
     private Leaderboard leaderboard;
+    private MusicManager musicManager;
     private Screen startMenuScreen;
     private Screen leaderboardScreen;
     private Screen helpScreen;
@@ -27,6 +28,7 @@ public class UniSimGame extends Game {
         // Create a map from our cursors to GDX cursors.
         cursorMap = new HashMap<>();
         leaderboard = new Leaderboard();
+        musicManager = new MusicManager();
 
         // Load all the cursors.
         for (var cursor : GameCursor.values()) {
@@ -48,6 +50,7 @@ public class UniSimGame extends Game {
     public void render() {
         // Delegate to the active screen.
         super.render();
+        musicManager.update();
     }
 
     @Override
