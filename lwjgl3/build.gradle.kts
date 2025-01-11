@@ -27,8 +27,5 @@ tasks.jar {
 }
 
 tasks.shadowJar {
-    from("${rootProject.projectDir}/assets") {
-        into("/")
-    }
     minimize()
 }
