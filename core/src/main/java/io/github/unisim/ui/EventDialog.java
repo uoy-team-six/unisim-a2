@@ -1,26 +1,65 @@
 package io.github.unisim.ui;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import io.github.unisim.GameLogic;
 import io.github.unisim.event.EventType;
 import io.github.unisim.event.GameEvent;
+import io.github.unisim.world.World;
 
 public class EventDialog extends Dialog {
     private final GameLogic gameLogic;
+    private final World world;
 
-    public EventDialog(GameEvent event, GameLogic gameLogic, Skin skin) {
+    private TextureRegionDrawable createRoundedDrawable(int width, int height, int cornerRadius, Color fillColor, Color borderColor) {
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        
+        // Clear the pixmap with full transparency
+        pixmap.setColor(0, 0, 0, 0);
+        pixmap.fill();
+
+        int border = 3;
+        
+        // Draw the fill
+        pixmap.setColor(fillColor);
+        pixmap.fillRectangle(border, border, width - 2 * border, height - 2 * border);
+        
+        // Draw the border
+        pixmap.setColor(borderColor);
+        pixmap.fillRectangle(0, 0, width, border); // Top
+        pixmap.fillRectangle(0, height - border, width, border); // Bottom
+        pixmap.fillRectangle(0, 0, border, height); // Left
+        pixmap.fillRectangle(width - border, 0, border, height); // Right
+        
+        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+        
+        return drawable;
+    }
+
+    public EventDialog(GameEvent event, GameLogic gameLogic, World world, Skin skin) {
         super("", skin);
         this.gameLogic = gameLogic;
+        this.world = world;
 
-        // Create a container table for better padding and background
+        // Cancel any building selection when dialog appears
+        world.selectedBuilding = null;
+
+        // Create a container table with custom background
         Table container = new Table();
-        container.setBackground(skin.getDrawable("window"));
-        container.pad(20);
+        Color backgroundColor = new Color(0xFAF7F5FF);
+        Color borderColor = new Color(0x144E96FF);
+        TextureRegionDrawable background = createRoundedDrawable(500, 300, 30, backgroundColor, borderColor);
+        container.setBackground(background);
+        container.pad(30);
 
         // Style the title based on event type
         Label titleLabel = new Label(event.getName() + "!", skin);
@@ -31,24 +70,26 @@ public class EventDialog extends Dialog {
             default -> Color.WHITE;
         };
         titleLabel.setColor(titleColor);
-        titleLabel.setFontScale(1.5f);
-        container.add(titleLabel).expandX().center().padBottom(30).row();
+        titleLabel.setFontScale(2.0f);
+        container.add(titleLabel).expandX().center().padBottom(20).row();
 
         // Add a separator line
         Image separator = new Image(skin.getDrawable("white"));
         separator.setColor(titleColor);
-        container.add(separator).height(2).expandX().fillX().pad(10).row();
+        container.add(separator).height(3).expandX().fillX().pad(10).row();
 
         // Style the description
         Label descriptionLabel = new Label(event.getDescription(), skin);
         descriptionLabel.setAlignment(Align.center);
         descriptionLabel.setWrap(true);
-        descriptionLabel.setColor(new Color(0.9f, 0.9f, 0.9f, 1.0f));  // Light gray
+        descriptionLabel.setColor(Color.BLACK);
+        descriptionLabel.setFontScale(1.5f);
         container.add(descriptionLabel).width(450).pad(20).row();
 
         // Style the continue button
         TextButton continueButton = new TextButton("Continue", skin);
-        continueButton.pad(10, 30, 10, 30);
+        continueButton.getLabel().setFontScale(1.5f);
+        continueButton.pad(15, 40, 15, 40);
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
