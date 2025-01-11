@@ -28,6 +28,9 @@ public class WorldInputProcessor extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
+            case Keys.ESCAPE:
+                world.selectedBuilding = null;
+                break;
             case Keys.SPACE:
                 if (gameLogic.isPaused()) {
                     gameLogic.unpause();

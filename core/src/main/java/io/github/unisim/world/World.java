@@ -369,4 +369,8 @@ public class World {
     public BuildingManager getBuildingManager() {
         return buildingManager;
     }
+
+    public PeopleManager getPeopleManager() {
+        return peopleManager;
+    }
 }

@@ -19,6 +19,7 @@ public class PeopleManager {
     private final List<Person> people;
     private final Texture spritesheet;
     private float spawnTimer = 0.0f;
+    private float spawnRateMultiplier = 1.0f;
 
     public PeopleManager(BuildingManager buildingManager, Matrix4 isoTransform) {
         this.buildingManager = buildingManager;
@@ -33,12 +34,13 @@ public class PeopleManager {
         if (buildingCount < 2) {
             return 0;
         }
-        return buildingCount * 5;
+        return buildingCount * 10;
     }
 
     private float calculateSpawnRate() {
+        // Note that spawn rate is the reciprocal, so we divide by the multiplier.
         final int buildingCount = buildingManager.getBuildings().size();
-        return 3.0f / buildingCount;
+        return 3.0f / buildingCount / spawnRateMultiplier;
     }
 
     private Building getRandomBuilding() {
@@ -85,5 +87,9 @@ public class PeopleManager {
             var region = new TextureRegion(spritesheet, spriteX, spriteY, 16, 24);
             batch.draw(region, position.x, position.y, 1.0f, 1.5f);
         }
+    }
+
+    public void setSpawnRateMultiplier(float spawnRateMultiplier) {
+        this.spawnRateMultiplier = spawnRateMultiplier;
     }
 }

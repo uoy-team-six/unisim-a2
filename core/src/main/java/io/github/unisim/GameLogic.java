@@ -3,11 +3,9 @@ package io.github.unisim;
 import com.badlogic.gdx.math.MathUtils;
 import io.github.unisim.achievement.Achievement;
 import io.github.unisim.achievement.AchievementManager;
+import io.github.unisim.building.Building;
 import io.github.unisim.building.BuildingType;
-import io.github.unisim.event.DiscountEvent;
-import io.github.unisim.event.DonationEvent;
-import io.github.unisim.event.EventManager;
-import io.github.unisim.event.SatisfactionEvent;
+import io.github.unisim.event.*;
 import io.github.unisim.world.World;
 
 /**
@@ -66,15 +64,24 @@ public class GameLogic {
     }
 
     /**
+     * @param building a building
+     * @return the price of the building including any discount
+     */
+    public int getBuildingPrice(Building building) {
+        int buildingPrice = building.price;
+        if (eventManager.getCurrentEvent() instanceof DiscountEvent discountEvent) {
+            buildingPrice = discountEvent.applyDiscount(buildingPrice);
+        }
+        return buildingPrice;
+    }
+
+    /**
      * Places the currently selected building.
      *
      * @return true if the building was placed; false if not
      */
     public boolean placeBuilding() {
-        int buildingPrice = world.selectedBuilding.price;
-        if (eventManager.getCurrentEvent() instanceof DiscountEvent discountEvent) {
-            buildingPrice = discountEvent.applyDiscount(buildingPrice);
-        }
+        int buildingPrice = getBuildingPrice(world.selectedBuilding);
         if (money < buildingPrice) {
             return false;
         }
@@ -154,6 +161,17 @@ public class GameLogic {
         // Update achievements and events.
         achievementManager.update(deltaTime);
         eventManager.update(deltaTime);
+
+        // Handle busy week event.
+        var peopleManager = world.getPeopleManager();
+        if (peopleManager != null) {
+            if (eventManager.getCurrentEvent() instanceof BusyWeekEvent) {
+                peopleManager.setSpawnRateMultiplier(20.0f);
+            } else {
+                peopleManager.setSpawnRateMultiplier(1.0f);
+            }
+        }
+
 
         // Handle donation event.
         if (eventManager.getCurrentEvent() instanceof DonationEvent donationEvent) {

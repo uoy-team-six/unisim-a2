@@ -14,7 +14,7 @@ public class EventManager {
 
     public EventManager(GameLogic gameLogic) {
         this.gameLogic = gameLogic;
-        enabledEvents = List.of(DonationEvent.class, DiscountEvent.class, RainEvent.class, RosesEvent.class);
+        enabledEvents = List.of(BusyWeekEvent.class, DonationEvent.class, DiscountEvent.class, RainEvent.class, RosesEvent.class);
     }
 
     /**

@@ -160,6 +160,9 @@ public class InfoBar {
             eventLabel.setText("");
             tooltipLabel.setText("");
         }
+        // Manually set width and pad tooltip container to fit label properly.
+        eventLabelTooltip.getContainer().pack();
+        eventLabelTooltip.getContainer().width(tooltipLabel.getGlyphLayout().width).pad(5.0f);
     }
 
     /**
