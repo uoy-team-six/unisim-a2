@@ -3,6 +3,7 @@ package io.github.unisim;
 import com.badlogic.gdx.math.MathUtils;
 import io.github.unisim.achievement.Achievement;
 import io.github.unisim.achievement.AchievementManager;
+import io.github.unisim.building.Building;
 import io.github.unisim.building.BuildingType;
 import io.github.unisim.event.DiscountEvent;
 import io.github.unisim.event.DonationEvent;
@@ -66,15 +67,24 @@ public class GameLogic {
     }
 
     /**
+     * @param building a building
+     * @return the price of the building including any discount
+     */
+    public int getBuildingPrice(Building building) {
+        int buildingPrice = building.price;
+        if (eventManager.getCurrentEvent() instanceof DiscountEvent discountEvent) {
+            buildingPrice = discountEvent.applyDiscount(buildingPrice);
+        }
+        return buildingPrice;
+    }
+
+    /**
      * Places the currently selected building.
      *
      * @return true if the building was placed; false if not
      */
     public boolean placeBuilding() {
-        int buildingPrice = world.selectedBuilding.price;
-        if (eventManager.getCurrentEvent() instanceof DiscountEvent discountEvent) {
-            buildingPrice = discountEvent.applyDiscount(buildingPrice);
-        }
+        int buildingPrice = getBuildingPrice(world.selectedBuilding);
         if (money < buildingPrice) {
             return false;
         }

@@ -119,9 +119,10 @@ public class BuildingMenu {
                         world.selectedBuilding = null;
                     } else {
                         world.selectedBuilding = buildings.get(buildingIndex);
+                        int buildingPrice = gameLogic.getBuildingPrice(world.selectedBuilding);
                         buildingInfoLabel.setText(String.format("%s (£%d) - Press 'R' to rotate",
                             world.selectedBuilding.name,
-                            world.selectedBuilding.price));
+                            buildingPrice));
                         if (world.selectedBuilding.flipped) {
                             world.selectedBuilding.flipped = false;
                             int temp = world.selectedBuilding.size.x;
