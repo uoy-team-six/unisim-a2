@@ -5,10 +5,7 @@ import io.github.unisim.achievement.Achievement;
 import io.github.unisim.achievement.AchievementManager;
 import io.github.unisim.building.Building;
 import io.github.unisim.building.BuildingType;
-import io.github.unisim.event.DiscountEvent;
-import io.github.unisim.event.DonationEvent;
-import io.github.unisim.event.EventManager;
-import io.github.unisim.event.SatisfactionEvent;
+import io.github.unisim.event.*;
 import io.github.unisim.world.World;
 
 /**
@@ -164,6 +161,17 @@ public class GameLogic {
         // Update achievements and events.
         achievementManager.update(deltaTime);
         eventManager.update(deltaTime);
+
+        // Handle busy week event.
+        var peopleManager = world.getPeopleManager();
+        if (peopleManager != null) {
+            if (eventManager.getCurrentEvent() instanceof BusyWeekEvent) {
+                peopleManager.setSpawnRateMultiplier(20.0f);
+            } else {
+                peopleManager.setSpawnRateMultiplier(1.0f);
+            }
+        }
+
 
         // Handle donation event.
         if (eventManager.getCurrentEvent() instanceof DonationEvent donationEvent) {

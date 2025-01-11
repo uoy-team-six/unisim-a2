@@ -11,7 +11,7 @@ public class EventManager {
     private float checkEventTimer;
 
     public EventManager() {
-        enabledEvents = List.of(DonationEvent.class, DiscountEvent.class, RainEvent.class, RosesEvent.class);
+        enabledEvents = List.of(BusyWeekEvent.class, DonationEvent.class, DiscountEvent.class, RainEvent.class, RosesEvent.class);
     }
 
     /**
