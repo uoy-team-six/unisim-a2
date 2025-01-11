@@ -18,12 +18,12 @@ public class DiscountEvent extends GameEvent {
 
     @Override
     public String getName() {
-        return "Building Discount";
+        return "Construction Sale";
     }
 
     @Override
     public String getDescription() {
-        return "Buildings are 20% cheaper";
+        return "The construction companies are having a massive sale! All buildings are 20% off. Time to expand your campus!";
     }
 
     @Override

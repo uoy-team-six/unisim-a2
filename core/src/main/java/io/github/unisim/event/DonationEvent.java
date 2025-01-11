@@ -28,12 +28,12 @@ public class DonationEvent extends GameEvent {
 
     @Override
     public String getName() {
-        return "Alumni Donations";
+        return "Generous Alumni";
     }
 
     @Override
     public String getDescription() {
-        return "Alumni are donating to the university!";
+        return "Your successful graduates are feeling nostalgic! They're showering the university with donations. Ka-ching!";
     }
 
     @Override

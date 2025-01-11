@@ -1,6 +1,7 @@
 package io.github.unisim.event;
 
 import com.badlogic.gdx.math.MathUtils;
+import io.github.unisim.GameLogic;
 
 import java.util.List;
 
@@ -9,8 +10,10 @@ public class EventManager {
     private GameEvent currentEvent;
     private float nextEventProbability;
     private float checkEventTimer;
+    private final GameLogic gameLogic;
 
-    public EventManager() {
+    public EventManager(GameLogic gameLogic) {
+        this.gameLogic = gameLogic;
         enabledEvents = List.of(BusyWeekEvent.class, DonationEvent.class, DiscountEvent.class, RainEvent.class, RosesEvent.class);
     }
 
@@ -21,6 +24,7 @@ public class EventManager {
         try {
             var eventConstructor = enabledEvents.get(MathUtils.random(enabledEvents.size() - 1)).getConstructor();
             currentEvent = eventConstructor.newInstance();
+            gameLogic.pause();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -14,12 +14,12 @@ public class RosesEvent extends SatisfactionEvent {
 
     @Override
     public String getName() {
-        return "Roses";
+        return "Roses Tournament";
     }
 
     @Override
     public String getDescription() {
-        return "Students are happier";
+        return "Roses has arrived! Students will compete in this exciting sports event, boosting school spirit and student satisfaction!";
     }
 
     @Override

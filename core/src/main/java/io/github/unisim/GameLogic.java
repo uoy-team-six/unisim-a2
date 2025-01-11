@@ -36,7 +36,7 @@ public class GameLogic {
     public GameLogic(World world, Difficulty difficulty) {
         this.world = world;
         achievementManager = new AchievementManager(this);
-        eventManager = new EventManager();
+        eventManager = new EventManager(this);
 
         // Start in a paused state.
         gameState = GameState.PAUSED;

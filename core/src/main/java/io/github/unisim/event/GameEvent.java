@@ -23,7 +23,20 @@ public abstract class GameEvent {
         return durationTimer <= 0.0f;
     }
 
+    /**
+     * @return the name of the event to display in the UI
+     */
     public abstract String getName();
+
+    /**
+     * @return a fun description of what the event does
+     */
     public abstract String getDescription();
-    public abstract EventType getType();
+
+    /**
+     * @return the type of event (positive, negative, or neutral)
+     */
+    public EventType getType() {
+        return EventType.NEUTRAL;
+    }
 }
