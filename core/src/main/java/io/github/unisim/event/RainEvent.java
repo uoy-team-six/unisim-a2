@@ -14,12 +14,12 @@ public class RainEvent extends SatisfactionEvent {
 
     @Override
     public String getName() {
-        return "Rain";
+        return "Rainy Day";
     }
 
     @Override
     public String getDescription() {
-        return "Students are slightly unhappier";
+        return "It's pouring outside! Students are getting soaked between classes, and everyone's a bit grumpy.";
     }
 
     @Override

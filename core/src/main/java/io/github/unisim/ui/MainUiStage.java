@@ -16,6 +16,7 @@ public class MainUiStage extends Stage {
 
     private final GlyphLayout glyphLayout;
     private final Label achievementLabel;
+    private EventDialog currentEventDialog;
 
     public MainUiStage(GameScreen gameScreen) {
         super(new ScreenViewport());
@@ -32,6 +33,17 @@ public class MainUiStage extends Stage {
     public void act(float delta) {
         super.act(delta);
 
+        // Show event dialog if a new event has started
+        if (gameLogic.getEventManager().isEventActive()) {
+            var currentEvent = gameLogic.getEventManager().getCurrentEvent();
+            if (currentEventDialog == null) {
+                currentEventDialog = new EventDialog(currentEvent, gameLogic, GlobalState.defaultSkin);
+                currentEventDialog.show(this);
+            }
+        } else {
+            currentEventDialog = null;
+        }
+
         // Update achievement label.
         final var displayAchievement = gameLogic.getRecentlyUnlockedAchievement();
         achievementLabel.setVisible(displayAchievement != null);
@@ -47,7 +59,6 @@ public class MainUiStage extends Stage {
         }
 
         // Update components.
-        // TODO: These should be made into Actors.
         infoBar.update();
         buildingMenu.update();
     }
