@@ -55,9 +55,13 @@ public class MainUiStage extends Stage {
 
         // Update achievement label.
         final var displayAchievement = gameLogic.getRecentlyUnlockedAchievement();
-        achievementLabel.setVisible(displayAchievement != null);
-        if (displayAchievement != null) {
-            achievementLabel.setText(String.format("Achievement Unlocked: %s", displayAchievement.getName()));
+        achievementLabel.setVisible(displayAchievement != null || gameLogic.isPaused());
+        if (achievementLabel.isVisible()) {
+            if (displayAchievement != null) {
+                achievementLabel.setText(String.format("Achievement Unlocked: %s", displayAchievement.getName()));
+            } else {
+                achievementLabel.setText("Game is paused");
+            }
 
             achievementLabel.setFontScale(Gdx.graphics.getHeight() * 0.003f);
             glyphLayout.setText(achievementLabel.getStyle().font, achievementLabel.getText());
