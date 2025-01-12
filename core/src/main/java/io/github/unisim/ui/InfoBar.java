@@ -22,8 +22,9 @@ public class InfoBar {
     private Table buildingCountersTable = new Table();
     private Label[] buildingCounterLabels = new Label[4];
     private Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-    private Label satisfactionLabel = new Label("86%", skin);
+    private Label satisfactionLabel = new Label("", skin);
     private TextTooltip satisfactionLabelTooltip;
+    private Label studentCountLabel = new Label("", skin);
     private Label periodLabel = new Label("", skin);
     private Label moneyLabel = new Label("", skin);
     private Label titleLabel = new Label("UniSim", skin);
@@ -37,6 +38,7 @@ public class InfoBar {
     private final GameLogic gameLogic;
     private Cell<Label> timerLabelCell;
     private Cell<Label> satisfactionLabelCell;
+    private Cell<Label> studentCountLabelCell;
     private Cell<Image> pauseButtonCell;
     private Cell<Table> buildingCountersTableCell;
     private Cell<Label> periodLabelCell;
@@ -74,6 +76,7 @@ public class InfoBar {
         periodLabelCell = infoTable.add(periodLabel).align(Align.center);
         moneyLabelCell = infoTable.add(moneyLabel).align(Align.center);
         satisfactionLabelCell = infoTable.add(satisfactionLabel).align(Align.center);
+        studentCountLabelCell = infoTable.add(studentCountLabel).align(Align.center);
         eventLabelCell = infoTable.add(eventLabel).expandX().right();
         buildingCountersTableCell = infoTable.add(buildingCountersTable).expandX().align(Align.right);
 
@@ -126,9 +129,14 @@ public class InfoBar {
             periodLabel.setText(String.format("Year %d Semester %d", gameLogic.getYear(), gameLogic.getSemester()));
         }
 
-        // Update money and satisfaction labels.
+        // Update money, satisfaction, and student count labels.
         moneyLabel.setText(String.format("£%d", gameLogic.getMoney()));
         satisfactionLabel.setText(String.format("%d%%", gameLogic.getSatisfactionPercentage()));
+        if (gameLogic.getStudentCount() >= 500) {
+            studentCountLabel.setText("500+");
+        } else {
+            studentCountLabel.setText(gameLogic.getStudentCount());
+        }
 
         buildingCounterLabels[0].setText("Recreation: "
             + Integer.toString(world.getBuildingCount(BuildingType.RECREATION)));
@@ -191,7 +199,9 @@ public class InfoBar {
         moneyLabel.setFontScale(height * 0.002f);
         moneyLabelCell.width(height * 0.16f).height(height * 0.05f);
         satisfactionLabel.setFontScale(height * 0.002f);
-        satisfactionLabelCell.width(height * 0.04f).height(height * 0.05f);
+        satisfactionLabelCell.width(height * 0.15f).height(height * 0.05f);
+        studentCountLabel.setFontScale(height * 0.002f);
+        studentCountLabelCell.width(height * 0.04f).height(height * 0.05f);
         pauseButtonCell.width(height * 0.03f).height(height * 0.03f)
             .padLeft(height * 0.01f).padRight(height * 0.01f);
 
