@@ -91,7 +91,7 @@ public class GameLogic {
         money -= buildingPrice;
 
         // Calculate new building satisfaction.
-        newBuildingSatisfaction += Math.min(0.15f / (float) Math.pow(satisfaction, 0.5f), 1.0f);
+        newBuildingSatisfaction += Math.min(0.25f / (float) Math.pow(satisfaction, 0.5f), 1.0f);
         return true;
     }
 
@@ -102,15 +102,27 @@ public class GameLogic {
      */
     private void updateSatisfaction(float deltaTime) {
         // Slowly apply new building satisfaction.
-        float newBuildingFactor = newBuildingSatisfaction * 1.5f * deltaTime;
+        float newBuildingFactor = newBuildingSatisfaction * deltaTime;
         satisfaction += newBuildingFactor;
         newBuildingSatisfaction -= newBuildingFactor;
         newBuildingSatisfaction = Math.max(newBuildingSatisfaction, 0.0f);
 
+        // Decrease satisfaction if there isn't enough eating or learning buildings for all the students. Each restaurant
+        // can support 75 students and each library building can support 125 students. Use exponential formulas so a
+        // deficit can not just be offset by placing lots of recreation buildings.
+        var eatingDeficit = studentCount - world.getBuildingCount(BuildingType.EATING) * 75;
+        var learningDeficit = studentCount - world.getBuildingCount(BuildingType.LEARNING) * 125;
+        if (eatingDeficit > 0) {
+            satisfaction -= ((float) Math.pow(2.0f, eatingDeficit / 12.0f) / 175.0f) * deltaTime * 0.4f;
+        }
+        if (learningDeficit > 0) {
+            satisfaction -= ((float) Math.pow(2.0f, learningDeficit / 15.0f) / 75.0f) * deltaTime * 0.3f;
+        }
+
         // Decay satisfaction over time, but lower the factor based on the amount of recreation buildings.
-        float decayRate = 0.025f;
+        float decayRate = 0.02f;
         decayRate -= world.getBuildingCount(BuildingType.RECREATION) / 250.0f;
-        satisfaction -= Math.max(decayRate, 0.0025f) * deltaTime;
+        satisfaction -= Math.max(decayRate, 0.0015f) * deltaTime;
 
         // Apply any satisfaction changes from the current event.
         if (eventManager.getCurrentEvent() instanceof SatisfactionEvent satisfactionEvent) {
@@ -171,7 +183,6 @@ public class GameLogic {
                 peopleManager.setSpawnRateMultiplier(1.0f);
             }
         }
-
 
         // Handle donation event.
         if (eventManager.getCurrentEvent() instanceof DonationEvent donationEvent) {
