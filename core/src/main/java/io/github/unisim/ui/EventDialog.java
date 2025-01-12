@@ -67,7 +67,7 @@ public class EventDialog extends Dialog {
         Color titleColor = switch (event.getType()) {
             case POSITIVE -> new Color(0.2f, 0.8f, 0.2f, 1.0f);  // Softer green
             case NEGATIVE -> new Color(0.8f, 0.2f, 0.2f, 1.0f);  // Softer red
-            default -> Color.WHITE;
+            default -> Color.BLACK;
         };
         titleLabel.setColor(titleColor);
         titleLabel.setFontScale(2.0f);
