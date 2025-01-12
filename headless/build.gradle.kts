@@ -29,17 +29,15 @@ tasks.jacocoTestReport {
         html.required.set(true)
         csv.required.set(false)
     }
-    val classDirs = files(
-        "${buildDir}/classes/java/main",
-        "${buildDir}/classes/java/test"
-    )
+    val classDirs = fileTree(project(":core").layout.buildDirectory.dir("classes/java/main")) {
+        include("**/*.class")
+    }
     val sourceDirs = files(
-        "${projectDir}/src/main/java",
-        "${projectDir}/src/test/java"
+        "${project(":core").layout.projectDirectory}/src/main/java"
     )
     classDirectories.setFrom(classDirs)
     sourceDirectories.setFrom(sourceDirs)
-    executionData.setFrom(fileTree(buildDir).include("**/jacoco/test.exec"))
+    executionData.setFrom(fileTree(layout.buildDirectory).include("**/jacoco/test.exec"))
 }
 
 tasks.register("downloadGoogleStyle") {
