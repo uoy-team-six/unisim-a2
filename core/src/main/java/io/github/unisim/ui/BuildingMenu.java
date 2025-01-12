@@ -120,7 +120,7 @@ public class BuildingMenu {
                     } else {
                         world.selectedBuilding = buildings.get(buildingIndex);
                         int buildingPrice = gameLogic.getBuildingPrice(world.selectedBuilding);
-                        buildingInfoLabel.setText(String.format("%s (£%d) - Press 'R' to rotate",
+                        buildingInfoLabel.setText(String.format("%s (£%d) - Press 'R' to rotate, 'Esc' to cancel",
                             world.selectedBuilding.name,
                             buildingPrice));
                         if (world.selectedBuilding.flipped) {

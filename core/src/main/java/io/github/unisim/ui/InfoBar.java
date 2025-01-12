@@ -11,6 +11,7 @@ import io.github.unisim.GameLogic;
 import io.github.unisim.GlobalState;
 import io.github.unisim.building.BuildingType;
 import io.github.unisim.world.World;
+import io.github.unisim.event.DonationEvent;
 
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class InfoBar {
     private Cell<Label> eventLabelCell;
     private Cell[] buildingCounterCells;
     private World world;
+    private MoneyFeedback moneyFeedback;
+    private int lastMoney;
+    private int lastDonationMoney = 0;
 
     /**
      * Create a new infoBar and draws its' components onto the provided stage.
@@ -59,6 +63,7 @@ public class InfoBar {
         this.gameLogic = gameLogic;
         this.world = world;
         buildingCounterCells = new Cell[4];
+        lastMoney = gameLogic.getMoney();
 
         // Building counter table
         for (int i = 0; i < 4; i++) {
@@ -117,6 +122,8 @@ public class InfoBar {
         stage.addActor(bar);
         stage.addActor(infoTable);
         stage.addActor(titleTable);
+        
+        moneyFeedback = new MoneyFeedback(stage, skin);
     }
 
     /**
@@ -137,7 +144,37 @@ public class InfoBar {
         }
 
         // Update money, satisfaction, and student count labels.
-        moneyLabel.setText(String.format("£%d", gameLogic.getMoney()));
+        int currentMoney = gameLogic.getMoney();
+        moneyLabel.setText(String.format("£%d", currentMoney));
+        
+        // Show money feedback for all changes except donation gains
+        if (currentMoney != lastMoney) {
+            int change = currentMoney - lastMoney;
+            boolean isDonationIncrease = gameLogic.getEventManager().isEventActive() && 
+                gameLogic.getEventManager().getCurrentEvent() instanceof DonationEvent &&
+                change > 0;
+            
+            // Show feedback unless it's a donation increase
+            if (!isDonationIncrease) {
+                float moneyX = infoTable.getX() + moneyLabelCell.getActorX() + 31;
+                float moneyY = infoTable.getY() + moneyLabelCell.getActorY();
+                moneyFeedback.showFeedback(change, moneyX, moneyY);
+            }
+            
+            lastMoney = currentMoney;
+        }
+        
+        // Update money label color based on active event
+        if (gameLogic.getEventManager().isEventActive() && 
+            gameLogic.getEventManager().getCurrentEvent() instanceof DonationEvent &&
+            !gameLogic.isPaused()) {
+            moneyLabel.setColor(Color.GREEN);
+        } else {
+            moneyLabel.setColor(Color.WHITE);
+        }
+        
+        moneyFeedback.update(Gdx.graphics.getDeltaTime());
+
         satisfactionLabel.setText(String.format("%d%%", gameLogic.getSatisfactionPercentage()));
         if (gameLogic.getStudentCount() >= 500) {
             studentCountLabel.setText("500+");
@@ -218,5 +255,7 @@ public class InfoBar {
         titleLabel.setFontScale(height * 0.003f);
         eventLabel.setFontScale(height * 0.002f);
         eventLabelCell.padLeft(width * 0.15f);
+
+        moneyFeedback.resize(height);
     }
 }
