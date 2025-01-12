@@ -1,8 +1,11 @@
 package io.github.unisim.event;
 
 import com.badlogic.gdx.math.MathUtils;
+import io.github.unisim.Difficulty;
 import io.github.unisim.GameLogic;
+import io.github.unisim.GlobalState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventManager {
@@ -14,7 +17,18 @@ public class EventManager {
 
     public EventManager(GameLogic gameLogic) {
         this.gameLogic = gameLogic;
-        enabledEvents = List.of(BusyWeekEvent.class, DonationEvent.class, DiscountEvent.class, RainEvent.class, RosesEvent.class);
+        enabledEvents = new ArrayList<>();
+        enabledEvents.addAll(List.of(BusyWeekEvent.class, DonationEvent.class));
+
+        // Don't add negative events on easy difficulty.
+        if (GlobalState.settings.getDifficulty() != Difficulty.EASY) {
+            enabledEvents.addAll(List.of(RainEvent.class, RosesEvent.class));
+        }
+
+        // Don't add random discount even on hard difficulty.
+        if (GlobalState.settings.getDifficulty() != Difficulty.HARD) {
+            enabledEvents.add(DiscountEvent.class);
+        }
     }
 
     /**
