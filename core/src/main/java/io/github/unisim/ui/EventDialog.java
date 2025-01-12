@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import io.github.unisim.GameLogic;
-import io.github.unisim.event.EventType;
 import io.github.unisim.event.GameEvent;
 import io.github.unisim.world.World;
 
@@ -117,4 +116,4 @@ public class EventDialog extends Dialog {
         );
         return this;
     }
-} 
+}
