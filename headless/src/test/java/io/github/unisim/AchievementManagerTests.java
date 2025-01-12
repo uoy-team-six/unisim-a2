@@ -14,6 +14,9 @@ import java.util.stream.Stream;
 import static java.util.Arrays.stream;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * AchievementManager unit tests.
+ */
 public class AchievementManagerTests {
     private AchievementManager achievementManager;
     private int money;

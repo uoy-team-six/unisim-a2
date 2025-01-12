@@ -12,6 +12,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+/**
+ * Score unit tests.
+ */
 public class ScoreTests {
     @Test
     public void testCampusValue() {

@@ -8,6 +8,8 @@ import io.github.unisim.building.BuildingType;
 import io.github.unisim.event.*;
 import io.github.unisim.world.World;
 
+import java.util.function.BooleanSupplier;
+
 /**
  * A class which manages the gameplay logic. This class is a new addition from the inherited codebase.
  */
@@ -34,9 +36,13 @@ public class GameLogic {
     private float newBuildingSatisfaction;
 
     public GameLogic(World world, Difficulty difficulty) {
+        this(world, difficulty, () -> true);
+    }
+
+    public GameLogic(World world, Difficulty difficulty, BooleanSupplier canStartEvent) {
         this.world = world;
         achievementManager = new AchievementManager(this);
-        eventManager = new EventManager(this, difficulty);
+        eventManager = new EventManager(canStartEvent, this, difficulty);
 
         // Start in a paused state.
         gameState = GameState.PAUSED;
@@ -232,7 +238,7 @@ public class GameLogic {
     }
 
     public boolean isSummer() {
-        return getSecondsIntoYear() <= SUMMER_TIME;
+        return getSecondsIntoYear() < SUMMER_TIME;
     }
 
     public boolean isPaused() {

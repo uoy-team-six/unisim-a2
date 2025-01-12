@@ -3,19 +3,22 @@ package io.github.unisim.event;
 import com.badlogic.gdx.math.MathUtils;
 import io.github.unisim.Difficulty;
 import io.github.unisim.GameLogic;
-import io.github.unisim.GlobalState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.BooleanSupplier;
 
 public class EventManager {
+    private final BooleanSupplier canStartEvent;
     private final List<Class<? extends GameEvent>> enabledEvents;
     private GameEvent currentEvent;
     private float nextEventProbability;
     private float checkEventTimer;
     private final GameLogic gameLogic;
 
-    public EventManager(GameLogic gameLogic, Difficulty difficulty) {
+    public EventManager(BooleanSupplier canStartEvent, GameLogic gameLogic, Difficulty difficulty) {
+        this.canStartEvent = canStartEvent;
         this.gameLogic = gameLogic;
         enabledEvents = new ArrayList<>();
         enabledEvents.addAll(List.of(BusyWeekEvent.class, DonationEvent.class));
@@ -32,16 +35,25 @@ public class EventManager {
     }
 
     /**
-     * Forcibly starts a new event.
+     * Forcibly starts a new instance of the given event.
+     *
+     * @param eventClass the event to start
      */
-    public void startNewEvent() {
+    public void startNewEvent(Class<? extends GameEvent> eventClass) {
         try {
-            var eventConstructor = enabledEvents.get(MathUtils.random(enabledEvents.size() - 1)).getConstructor();
+            var eventConstructor = eventClass.getConstructor();
             currentEvent = eventConstructor.newInstance();
             gameLogic.pause();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Forcibly starts a new event.
+     */
+    public void startNewEvent() {
+        startNewEvent(enabledEvents.get(ThreadLocalRandom.current().nextInt(enabledEvents.size())));
     }
 
     /**
@@ -55,6 +67,10 @@ public class EventManager {
             if (currentEvent.isFinished()) {
                 currentEvent = null;
             }
+            return;
+        }
+
+        if (!canStartEvent.getAsBoolean()) {
             return;
         }
 

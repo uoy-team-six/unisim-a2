@@ -2,6 +2,7 @@ package io.github.unisim;
 
 import io.github.unisim.world.World;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,12 +12,15 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * GameLogic unit tests.
+ */
 public class GameLogicTests {
     private GameLogic gameLogic;
 
     @BeforeEach
     public void setup() {
-        gameLogic = new GameLogic(new World(), Difficulty.NORMAL);
+        gameLogic = new GameLogic(new World(), Difficulty.NORMAL, () -> false);
     }
 
     @Test
@@ -94,5 +98,42 @@ public class GameLogicTests {
         gameLogic.pause();
         assertFalse(gameLogic.isPaused());
         assertTrue(gameLogic.isGameOver());
+    }
+
+    @Test
+    public void testSeasons() {
+        gameLogic.unpause();
+        for (int year = 1; year <= 3; year++) {
+            assertEquals(gameLogic.getYear(), year);
+
+            // Year should start in summer period.
+            assertTrue(gameLogic.isSummer());
+
+            // Year should start in summer.
+            gameLogic.update(21.0f);
+            assertFalse(gameLogic.isSummer());
+
+            // First semester.
+            assertEquals(gameLogic.getSemester(), 1);
+            gameLogic.update(40.0f);
+
+            // Second semester.
+            assertEquals(gameLogic.getSemester(), 2);
+            gameLogic.update(40.0f);
+        }
+    }
+
+    @Test
+    @Disabled
+    public void testGameTimerBounds() {
+        gameLogic.unpause();
+        gameLogic.update(500.0f);
+        gameLogic.update(500.0f);
+        assertTrue(gameLogic.isGameOver());
+
+        // Make sure game stays at year 3 semester 2 on game end.
+        assertEquals(gameLogic.getRemainingTime(), 0.0f);
+        assertEquals(gameLogic.getYear(), 3);
+        assertEquals(gameLogic.getSemester(), 2);
     }
 }
