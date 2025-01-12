@@ -12,6 +12,8 @@ import io.github.unisim.GlobalState;
 import io.github.unisim.building.BuildingType;
 import io.github.unisim.world.World;
 
+import java.util.List;
+
 /**
  * Create a Title bar with basic info.
  */
@@ -23,8 +25,9 @@ public class InfoBar {
     private Label[] buildingCounterLabels = new Label[4];
     private Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
     private Label satisfactionLabel = new Label("", skin);
-    private TextTooltip satisfactionLabelTooltip;
     private Label studentCountLabel = new Label("", skin);
+    private TextTooltip satisfactionLabelTooltip;
+    private TextTooltip studentCountLabelTooltip;
     private Label periodLabel = new Label("", skin);
     private Label moneyLabel = new Label("", skin);
     private Label titleLabel = new Label("UniSim", skin);
@@ -84,9 +87,13 @@ public class InfoBar {
         eventLabelTooltip.setInstant(true);
         eventLabel.addListener(eventLabelTooltip);
 
-        satisfactionLabelTooltip = new TextTooltip("", skin);
+        satisfactionLabelTooltip = new TextTooltip("Satisfaction", skin);
         satisfactionLabelTooltip.setInstant(true);
         satisfactionLabel.addListener(satisfactionLabelTooltip);
+
+        studentCountLabelTooltip = new TextTooltip("Student Count", skin);
+        studentCountLabelTooltip.setInstant(true);
+        studentCountLabel.addListener(studentCountLabelTooltip);
 
         // Pause button
         pauseImage.addListener(new ClickListener() {
@@ -168,9 +175,12 @@ public class InfoBar {
             eventLabel.setText("");
             tooltipLabel.setText("");
         }
-        // Manually set width and pad tooltip container to fit label properly.
-        eventLabelTooltip.getContainer().pack();
-        eventLabelTooltip.getContainer().width(tooltipLabel.getGlyphLayout().width).pad(5.0f);
+
+        // Manually set width and pad tooltip containers to fit label properly.
+        for (var tooltip : List.of(eventLabelTooltip, satisfactionLabelTooltip, studentCountLabelTooltip)) {
+            tooltip.getContainer().pack();
+            tooltip.getContainer().width(tooltip.getActor().getGlyphLayout().width).pad(5.0f);
+        }
     }
 
     /**
