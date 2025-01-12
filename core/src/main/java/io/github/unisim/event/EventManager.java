@@ -15,18 +15,18 @@ public class EventManager {
     private float checkEventTimer;
     private final GameLogic gameLogic;
 
-    public EventManager(GameLogic gameLogic) {
+    public EventManager(GameLogic gameLogic, Difficulty difficulty) {
         this.gameLogic = gameLogic;
         enabledEvents = new ArrayList<>();
         enabledEvents.addAll(List.of(BusyWeekEvent.class, DonationEvent.class));
 
         // Don't add negative events on easy difficulty.
-        if (GlobalState.settings.getDifficulty() != Difficulty.EASY) {
+        if (difficulty != Difficulty.EASY) {
             enabledEvents.addAll(List.of(RainEvent.class, RosesEvent.class));
         }
 
         // Don't add random discount even on hard difficulty.
-        if (GlobalState.settings.getDifficulty() != Difficulty.HARD) {
+        if (difficulty != Difficulty.HARD) {
             enabledEvents.add(DiscountEvent.class);
         }
     }
